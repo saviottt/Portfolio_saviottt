@@ -13,7 +13,7 @@ window.APP_CONFIGS = {
   terminal: { title: 'Terminal', width: 700, height: 460 },
   vscode:   { title: 'Visual Studio Code', width: 900, height: 600 },
   safari:   { title: 'Safari',   width: 820, height: 580 },
-  resume:   { title: 'Resume.pdf — Preview', width: 780, height: 720 },
+  resume:   { title: 'Resume.pdf', width: 780, height: 720 },
   contact:  { title: 'Contact',  width: 540, height: 480 },
   github:   { title: 'GitHub',   width: 500, height: 400 },
 };
@@ -827,10 +827,7 @@ function renderSafari(el, winId) {
 function renderResume(el) {
   const C = window.CONFIG;
   const resumeFile = (C.resume && C.resume.file) || 'Resume.pdf';
-  const previewImg = (C.resume && C.resume.previewImage) || 'assets/images/resume_preview-1.png';
   const fileName   = (C.resume && C.resume.name) || 'Resume.pdf';
-
-  let currentZoom = 100;
 
   el.innerHTML = `
     <div class="resume-app">
@@ -838,20 +835,7 @@ function renderResume(el) {
         <div class="resume-toolbar-left">
           <span class="resume-toolbar-badge">📄</span>
           <span class="resume-toolbar-title">${fileName}</span>
-          <span class="resume-page-counter">1 page</span>
-        </div>
-
-        <div class="resume-toolbar-center">
-          <div class="resume-segmented-control" role="tablist">
-            <button class="resume-seg-btn active" id="resumeSegPreview" data-view="preview" title="Document Preview">📄 Preview</button>
-            <button class="resume-seg-btn" id="resumeSegPdf" data-view="pdf" title="Embedded PDF Reader">📑 Interactive PDF</button>
-          </div>
-          <div class="resume-zoom-controls" id="resumeZoomControls">
-            <button class="resume-tool-btn" id="resumeZoomOut" title="Zoom Out">−</button>
-            <span class="resume-zoom-text" id="resumeZoomText">100%</span>
-            <button class="resume-tool-btn" id="resumeZoomIn" title="Zoom In">+</button>
-            <button class="resume-tool-btn" id="resumeZoomFit" title="Fit to Window">Fit</button>
-          </div>
+          <span class="resume-page-counter">PDF Document</span>
         </div>
 
         <div class="resume-toolbar-right">
@@ -867,66 +851,12 @@ function renderResume(el) {
       </div>
 
       <div class="resume-body">
-        <div class="resume-preview-pane active" id="resumePreviewPane">
-          <div class="resume-canvas" id="resumeCanvas">
-            <div class="resume-sheet" id="resumeSheet">
-              <img src="${previewImg}" alt="Don Savio Thomas Resume" class="resume-img" id="resumeImg" draggable="false" />
-            </div>
-          </div>
-        </div>
-
-        <div class="resume-pdf-pane" id="resumePdfPane">
+        <div class="resume-pdf-pane active" id="resumePdfPane">
           <iframe class="resume-pdf-iframe" src="${resumeFile}#toolbar=1&navpanes=0" title="Resume PDF"></iframe>
         </div>
       </div>
     </div>
   `;
-
-  // Attach interactive controls
-  const segPreview   = el.querySelector('#resumeSegPreview');
-  const segPdf       = el.querySelector('#resumeSegPdf');
-  const previewPane  = el.querySelector('#resumePreviewPane');
-  const pdfPane      = el.querySelector('#resumePdfPane');
-  const zoomControls = el.querySelector('#resumeZoomControls');
-  const sheet        = el.querySelector('#resumeSheet');
-  const zoomText     = el.querySelector('#resumeZoomText');
-  const btnZoomIn    = el.querySelector('#resumeZoomIn');
-  const btnZoomOut   = el.querySelector('#resumeZoomOut');
-  const btnZoomFit   = el.querySelector('#resumeZoomFit');
-
-  function updateZoom(newZoom) {
-    currentZoom = Math.min(Math.max(newZoom, 40), 220);
-    if (zoomText) zoomText.textContent = `${currentZoom}%`;
-    if (sheet) {
-      if (currentZoom === 100) {
-        sheet.style.transform = 'none';
-        sheet.style.maxWidth = '720px';
-      } else {
-        sheet.style.maxWidth = `${Math.round(720 * (currentZoom / 100))}px`;
-        sheet.style.transform = 'none';
-      }
-    }
-  }
-
-  btnZoomIn?.addEventListener('click', () => updateZoom(currentZoom + 15));
-  btnZoomOut?.addEventListener('click', () => updateZoom(currentZoom - 15));
-  btnZoomFit?.addEventListener('click', () => updateZoom(100));
-
-  segPreview?.addEventListener('click', () => {
-    segPreview.classList.add('active');
-    segPdf?.classList.remove('active');
-    previewPane?.classList.add('active');
-    pdfPane?.classList.remove('active');
-    if (zoomControls) zoomControls.style.opacity = '1';
-  });
-
-  segPdf?.addEventListener('click', () => {
-    segPdf.classList.add('active');
-    segPreview?.classList.remove('active');
-    pdfPane?.classList.add('active');
-    previewPane?.classList.remove('active');
-    if (zoomControls) zoomControls.style.opacity = '0.3';
-  });
 }
 
 /* ════════════════════════════════════════════════════════════════════════════

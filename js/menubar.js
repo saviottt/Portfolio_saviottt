@@ -49,6 +49,8 @@ window.Menubar = {
 
     const closeAll = () => {
       document.querySelectorAll('.menubar-item').forEach(x => x.classList.remove('active'));
+      const mobileBtn = document.getElementById('menubar-mobile-btn');
+      if (mobileBtn) mobileBtn.classList.remove('active');
       backdrop.classList.remove('active');
     };
 
@@ -58,12 +60,14 @@ window.Menubar = {
       closeAll();
     }, { passive: false });
 
-    // Toggle dropdown on click
+    // Toggle desktop dropdown on click
     document.querySelectorAll('.menubar-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.stopPropagation();
         const wasActive = item.classList.contains('active');
         document.querySelectorAll('.menubar-item').forEach(x => x.classList.remove('active'));
+        const mobileBtn = document.getElementById('menubar-mobile-btn');
+        if (mobileBtn) mobileBtn.classList.remove('active');
         if (!wasActive) {
           item.classList.add('active');
           backdrop.classList.add('active');
@@ -73,15 +77,60 @@ window.Menubar = {
       });
     });
 
+    // Mobile trigger button toggle and accordion
+    const mobileBtn = document.getElementById('menubar-mobile-btn');
+    if (mobileBtn) {
+      mobileBtn.addEventListener('click', (e) => {
+        if (e.target.closest('.mobile-menu-dropdown')) return;
+        e.stopPropagation();
+        const wasActive = mobileBtn.classList.contains('active');
+        closeAll();
+        if (!wasActive) {
+          mobileBtn.classList.add('active');
+          backdrop.classList.add('active');
+        }
+      });
+
+      mobileBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const wasActive = mobileBtn.classList.contains('active');
+          closeAll();
+          if (!wasActive) {
+            mobileBtn.classList.add('active');
+            backdrop.classList.add('active');
+          }
+        } else if (e.key === 'Escape') {
+          closeAll();
+        }
+      });
+
+      mobileBtn.querySelectorAll('.mobile-menu-header').forEach(header => {
+        header.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const group = header.closest('.mobile-menu-group');
+          if (!group) return;
+          const wasOpen = group.classList.contains('open');
+          mobileBtn.querySelectorAll('.mobile-menu-group').forEach(g => {
+            if (g !== group) g.classList.remove('open');
+          });
+          group.classList.toggle('open', !wasOpen);
+        });
+      });
+    }
+
     // Close on outside click (click + touch fallback)
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('.menubar-item')) closeAll();
+      if (!e.target.closest('.menubar-item') && !e.target.closest('#menubar-mobile-btn')) closeAll();
     });
     document.addEventListener('touchstart', (e) => {
-      if (!e.target.closest('.menubar-item')) closeAll();
+      if (!e.target.closest('.menubar-item') && !e.target.closest('#menubar-mobile-btn')) closeAll();
     }, { passive: true });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAll();
+    });
 
-    // Dropdown item actions
+    // Dropdown item actions (both desktop and mobile)
     document.querySelectorAll('.menu-dropdown-item[data-action]').forEach(item => {
       item.addEventListener('click', (e) => {
         e.stopPropagation();

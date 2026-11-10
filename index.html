@@ -41,8 +41,8 @@
      TOP MENU BAR
      ════════════════════════════════════════════════════════════════════════ -->
 <nav id="menubar">
-  <!-- The Five Menu Items inside a Single Bubble -->
-  <div class="menubar-bubble menubar-items">
+  <!-- The Five Menu Items inside a Single Bubble (Desktop View) -->
+  <div class="menubar-bubble menubar-items menubar-desktop-items">
     <!-- File Menu -->
     <div class="menubar-item">
       File
@@ -97,6 +97,88 @@
         <div class="menu-dropdown-item" data-action="help-contact"><span>Contact Developer</span></div>
         <div class="menu-dropdown-separator"></div>
         <div class="menu-dropdown-item" data-action="spotlight"><span>Search…</span><span class="shortcut">⌘Space</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile View: The Five Menu Items Collapsed into a Transparent Cursor Button (without text) -->
+  <div class="menubar-mobile-trigger" id="menubar-mobile-btn" aria-label="Open Navigation Menu" role="button" tabindex="0" title="Menu">
+    <svg class="mobile-cursor-icon" width="18" height="18" viewBox="0 0 24 24" fill="rgba(255, 255, 255, 0.25)" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M4 4l7.07 17 2.51-7.39L21 11.07z"/>
+    </svg>
+
+    <!-- Mobile Dropdown with the 5 Menus -->
+    <div class="mobile-menu-dropdown" id="mobile-menu-dropdown">
+      <!-- File Section -->
+      <div class="mobile-menu-group open" data-group="file">
+        <div class="mobile-menu-header">
+          <span>📁 File</span>
+          <span class="mobile-group-arrow">›</span>
+        </div>
+        <div class="mobile-menu-items">
+          <div class="menu-dropdown-item" data-action="new-window"><span>New Window</span></div>
+          <div class="menu-dropdown-item" data-action="new-folder"><span>New Folder</span></div>
+          <div class="menu-dropdown-separator"></div>
+          <div class="menu-dropdown-item" data-action="quit"><span>Close All Windows</span></div>
+        </div>
+      </div>
+
+      <!-- Edit Section -->
+      <div class="mobile-menu-group" data-group="edit">
+        <div class="mobile-menu-header">
+          <span>✏️ Edit</span>
+          <span class="mobile-group-arrow">›</span>
+        </div>
+        <div class="mobile-menu-items">
+          <div class="menu-dropdown-item" data-action="edit-undo"><span>Undo</span></div>
+          <div class="menu-dropdown-item" data-action="edit-redo"><span>Redo</span></div>
+          <div class="menu-dropdown-separator"></div>
+          <div class="menu-dropdown-item" data-action="edit-selectall"><span>Select All</span></div>
+          <div class="menu-dropdown-item" data-action="spotlight"><span>Find…</span></div>
+        </div>
+      </div>
+
+      <!-- View Section -->
+      <div class="mobile-menu-group" data-group="view">
+        <div class="mobile-menu-header">
+          <span>👁️ View</span>
+          <span class="mobile-group-arrow">›</span>
+        </div>
+        <div class="mobile-menu-items">
+          <div class="menu-dropdown-item" data-action="wallpaper"><span>Change Wallpaper</span></div>
+          <div class="menu-dropdown-item" data-action="dark-mode"><span>Toggle Dark Mode</span></div>
+          <div class="menu-dropdown-separator"></div>
+          <div class="menu-dropdown-item" data-action="spotlight"><span>Spotlight Search</span></div>
+          <div class="menu-dropdown-item" data-action="launchpad"><span>Open Launchpad</span></div>
+        </div>
+      </div>
+
+      <!-- Window Section -->
+      <div class="mobile-menu-group" data-group="window">
+        <div class="mobile-menu-header">
+          <span>🪟 Window</span>
+          <span class="mobile-group-arrow">›</span>
+        </div>
+        <div class="mobile-menu-items">
+          <div class="menu-dropdown-item" data-action="win-minimize"><span>Minimize</span></div>
+          <div class="menu-dropdown-item" data-action="win-zoom"><span>Zoom</span></div>
+          <div class="menu-dropdown-separator"></div>
+          <div class="menu-dropdown-item" data-action="quit"><span>Close All</span></div>
+        </div>
+      </div>
+
+      <!-- Help Section -->
+      <div class="mobile-menu-group" data-group="help">
+        <div class="mobile-menu-header">
+          <span>❓ Help</span>
+          <span class="mobile-group-arrow">›</span>
+        </div>
+        <div class="mobile-menu-items">
+          <div class="menu-dropdown-item" data-action="about-mac"><span>About Savio OS</span></div>
+          <div class="menu-dropdown-item" data-action="help-contact"><span>Contact Developer</span></div>
+          <div class="menu-dropdown-separator"></div>
+          <div class="menu-dropdown-item" data-action="spotlight"><span>Search…</span></div>
+        </div>
       </div>
     </div>
   </div>
