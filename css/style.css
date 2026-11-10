@@ -93,9 +93,9 @@
   --tl-hover-stroke: rgba(0,0,0,0.3);
 
   /* Menu Bar */
-  --menubar-height:  28px;
-  --menubar-bg:      rgba(30, 30, 32, 0.80);
-  --menubar-blur:    blur(20px);
+  --menubar-height:  40px;
+  --menubar-bg:      transparent;
+  --menubar-blur:    none;
 
   /* Dock */
   --dock-height:     68px;
@@ -131,7 +131,8 @@
   --shadow-xl:  0 16px 48px rgba(0,0,0,0.24), 0 8px 24px rgba(0,0,0,0.14);
   --shadow-window: 0 24px 72px rgba(0,0,0,0.28), 0 8px 24px rgba(0,0,0,0.14);
 
-  --menubar-bg:  rgba(236, 236, 236, 0.75);
+  --menubar-bg:  transparent;
+  --menubar-blur: none;
   --dock-bg:     rgba(200, 200, 205, 0.55);
   --dock-border: rgba(0, 0, 0, 0.12);
 }
@@ -240,7 +241,7 @@ button, a, .dock-item, .menubar-item, .menubar-indicator, .desktop-icon, .window
 /* ─── Mobile Tokens & Overrides ─────────────────────────────────────────── */
 @media (max-width: 768px) {
   :root {
-    --menubar-height: 38px;
+    --menubar-height: calc(44px + env(safe-area-inset-top, 0px));
     --dock-height: 60px;
     --dock-icon-size: 40px;
     --font-size-base: 13px;

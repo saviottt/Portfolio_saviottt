@@ -27,9 +27,10 @@ window.Menubar = {
         });
       }
       if (clockEl) {
-        clockEl.textContent = now.toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true
-        });
+        const isMobile = window.innerWidth <= 768;
+        clockEl.textContent = isMobile
+          ? now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+          : now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
       }
     };
     update();
@@ -38,27 +39,53 @@ window.Menubar = {
 
   // ─── Dropdown Menus ───────────────────────────────────────────────────────
   _bindMenus() {
+    let backdrop = document.getElementById('menubar-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'menubar-backdrop';
+      backdrop.className = 'menubar-backdrop';
+      document.body.appendChild(backdrop);
+    }
+
+    const closeAll = () => {
+      document.querySelectorAll('.menubar-item').forEach(x => x.classList.remove('active'));
+      backdrop.classList.remove('active');
+    };
+
+    backdrop.addEventListener('click', closeAll);
+    backdrop.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      closeAll();
+    }, { passive: false });
+
     // Toggle dropdown on click
     document.querySelectorAll('.menubar-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isActive = item.classList.contains('active');
-        // Close all
+        const wasActive = item.classList.contains('active');
         document.querySelectorAll('.menubar-item').forEach(x => x.classList.remove('active'));
-        if (!isActive) item.classList.add('active');
+        if (!wasActive) {
+          item.classList.add('active');
+          backdrop.classList.add('active');
+        } else {
+          backdrop.classList.remove('active');
+        }
       });
     });
 
-    // Close on outside click
-    document.addEventListener('click', () => {
-      document.querySelectorAll('.menubar-item').forEach(x => x.classList.remove('active'));
+    // Close on outside click (click + touch fallback)
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.menubar-item')) closeAll();
     });
+    document.addEventListener('touchstart', (e) => {
+      if (!e.target.closest('.menubar-item')) closeAll();
+    }, { passive: true });
 
     // Dropdown item actions
     document.querySelectorAll('.menu-dropdown-item[data-action]').forEach(item => {
       item.addEventListener('click', (e) => {
         e.stopPropagation();
-        document.querySelectorAll('.menubar-item').forEach(x => x.classList.remove('active'));
+        closeAll();
         this._handleMenuAction(item.dataset.action);
       });
     });
@@ -230,8 +257,13 @@ window.Menubar = {
 
   // ─── Indicator clicks ─────────────────────────────────────────────────────
   _bindIndicators() {
-    // Control Center
+    // Control Center (desktop button or mobile right bubble)
     document.getElementById('cc-btn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.ControlCenter?.toggle();
+    });
+
+    document.querySelector('.menubar-bubble.menubar-right')?.addEventListener('click', (e) => {
       e.stopPropagation();
       window.ControlCenter?.toggle();
     });

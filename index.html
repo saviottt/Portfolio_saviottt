@@ -41,26 +41,8 @@
      TOP MENU BAR
      ════════════════════════════════════════════════════════════════════════ -->
 <nav id="menubar">
-  <!-- Apple Logo -->
-  <div id="apple-menu" class="menubar-item" title="Apple Menu">
-    <svg width="13" height="15" viewBox="0 0 170 200" fill="currentColor">
-      <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925 6.149-3.65 12.78-5.515 19.909-5.521 3.994 0 8.951 1.288 14.898 3.828 5.951 2.386 9.823 3.471 12.73 3.471 2.78 0 7.229-1.218 13.316-3.65 5.904-2.267 11.085-3.198 15.567-2.823 11.498.928 20.141 5.459 25.905 13.615-10.273 6.235-15.339 14.961-15.218 26.154.109 8.72 3.255 15.981 9.42 21.958 2.808 2.658 5.955 4.717 9.457 6.195-.759 2.198-1.559 4.304-2.407 6.433zM119.11 7.24c0 6.835-2.498 13.233-7.47 19.173-6.003 7.016-13.251 11.072-21.098 10.418-.099-.815-.158-1.671-.158-2.569 0-6.559 2.861-13.587 7.925-19.308 2.527-2.908 5.738-5.321 9.629-7.247 3.882-1.898 7.552-2.949 11.005-3.126.098.887.167 1.774.167 2.659z"/>
-    </svg>
-    <div class="menu-dropdown">
-      <div class="menu-dropdown-item" data-action="about-mac"><span>About Savio OS</span></div>
-      <div class="menu-dropdown-separator"></div>
-      <div class="menu-dropdown-item" data-action="control-center"><span>System Settings…</span></div>
-      <div class="menu-dropdown-item" data-action="launchpad"><span>Launchpad</span></div>
-      <div class="menu-dropdown-separator"></div>
-      <div class="menu-dropdown-item" data-action="sleep"><span>Sleep</span><span class="shortcut">⌥⌘⏏</span></div>
-      <div class="menu-dropdown-item" data-action="restart"><span>Restart…</span></div>
-      <div class="menu-dropdown-item" data-action="lock"><span>Lock Screen</span><span class="shortcut">⌃⌘Q</span></div>
-    </div>
-  </div>
-
-
-  <!-- Menu items -->
-  <div class="menubar-items">
+  <!-- The Five Menu Items inside a Single Bubble -->
+  <div class="menubar-bubble menubar-items">
     <!-- File Menu -->
     <div class="menubar-item">
       File
@@ -119,14 +101,14 @@
     </div>
   </div>
 
-  <!-- Right Side Indicators -->
-  <div class="menubar-right">
-    <!-- Date -->
+  <!-- Right Indicators Bubble -->
+  <div class="menubar-bubble menubar-right">
+    <!-- Date Bubble -->
     <div class="menubar-indicator" title="Date">
       <span id="menubar-date"></span>
     </div>
 
-    <!-- Clock -->
+    <!-- Clock Bubble -->
     <div class="menubar-indicator" title="Time">
       <span id="menubar-clock"></span>
     </div>

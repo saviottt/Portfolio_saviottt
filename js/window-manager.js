@@ -354,7 +354,7 @@ class WindowManager {
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
       const newLeft = Math.max(0, origLeft + dx);
-      const newTop  = Math.max(28, origTop  + dy);
+      const newTop  = Math.max(40, origTop  + dy);
       win.el.style.left = newLeft + 'px';
       win.el.style.top  = newTop  + 'px';
       return;
