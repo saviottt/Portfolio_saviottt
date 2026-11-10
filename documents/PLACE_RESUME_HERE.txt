@@ -1,0 +1,5 @@
+Replace this file with your actual resume PDF.
+Rename your PDF to: resume.pdf
+Place it in this /documents/ folder.
+
+The download button in the Resume app will automatically link to it.

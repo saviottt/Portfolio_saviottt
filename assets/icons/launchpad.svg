@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="lpBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3a3a3c"/>
+      <stop offset="100%" stop-color="#1c1c1e"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="url(#lpBg)"/>
+  <!-- 9 dots grid -->
+  <circle cx="30" cy="30" r="7" fill="#ff453a"/>
+  <circle cx="50" cy="30" r="7" fill="#ff9f0a"/>
+  <circle cx="70" cy="30" r="7" fill="#ffd60a"/>
+  <circle cx="30" cy="50" r="7" fill="#30d158"/>
+  <circle cx="50" cy="50" r="7" fill="#66d4cf"/>
+  <circle cx="70" cy="50" r="7" fill="#0a84ff"/>
+  <circle cx="30" cy="70" r="7" fill="#5e5ce6"/>
+  <circle cx="50" cy="70" r="7" fill="#bf5af2"/>
+  <circle cx="70" cy="70" r="7" fill="#ff375f"/>
+</svg>

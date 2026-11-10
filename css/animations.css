@@ -1,0 +1,184 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   animations.css – Keyframe Animations and Transitions
+   SAVIO OS – macOS-Inspired Desktop Portfolio
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── App Open (from dock) ───────────────────────────────────────────────── */
+@keyframes windowOpen {
+  0%   { opacity: 0; transform: scale(0.85) translateY(20px); }
+  60%  { opacity: 1; transform: scale(1.02) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.window-opening {
+  animation: windowOpen 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ─── App Close ───────────────────────────────────────────────────────────── */
+@keyframes windowClose {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.85); }
+}
+
+.window-closing {
+  animation: windowClose 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* ─── Minimize to Dock ────────────────────────────────────────────────────── */
+@keyframes windowMinimize {
+  0%   { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: scale(0.1) translateY(500px); }
+}
+
+.window-minimizing {
+  animation: windowMinimize 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  pointer-events: none;
+}
+
+/* ─── Restore from Dock ───────────────────────────────────────────────────── */
+@keyframes windowRestore {
+  0%   { opacity: 0; transform: scale(0.1) translateY(300px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.window-restoring {
+  animation: windowRestore 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ─── Maximize ────────────────────────────────────────────────────────────── */
+.window.maximized {
+  transition: top 0.3s ease, left 0.3s ease,
+              width 0.3s ease, height 0.3s ease,
+              border-radius 0.3s ease !important;
+}
+
+/* ─── Window Shake (e.g. already open app) ───────────────────────────────── */
+@keyframes windowShake {
+  0%, 100% { transform: translateX(0); }
+  15%       { transform: translateX(-8px); }
+  30%       { transform: translateX(8px); }
+  45%       { transform: translateX(-6px); }
+  60%       { transform: translateX(6px); }
+  75%       { transform: translateX(-3px); }
+  90%       { transform: translateX(3px); }
+}
+
+.window-shake {
+  animation: windowShake 0.4s ease forwards;
+}
+
+/* ─── Launchpad Open ──────────────────────────────────────────────────────── */
+@keyframes launchpadIconIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+#launchpad-overlay.visible .launchpad-icon {
+  animation: launchpadIconIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+#launchpad-overlay.visible .launchpad-icon:nth-child(1)  { animation-delay: 0.00s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(2)  { animation-delay: 0.03s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(3)  { animation-delay: 0.06s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(4)  { animation-delay: 0.09s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(5)  { animation-delay: 0.12s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(6)  { animation-delay: 0.15s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(7)  { animation-delay: 0.18s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(8)  { animation-delay: 0.21s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(9)  { animation-delay: 0.24s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(10) { animation-delay: 0.27s; }
+#launchpad-overlay.visible .launchpad-icon:nth-child(11) { animation-delay: 0.30s; }
+
+/* ─── Notification Toast ──────────────────────────────────────────────────── */
+@keyframes notifSlideIn {
+  from { opacity: 0; transform: translateX(120%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes notifSlideOut {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(120%); }
+}
+
+.notification-toast {
+  animation: notifSlideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.notification-toast.hiding {
+  animation: notifSlideOut 0.25s ease forwards;
+}
+
+/* ─── Hover glow on icons ─────────────────────────────────────────────────── */
+@keyframes subtleGlow {
+  0%, 100% { filter: drop-shadow(0 0 0px transparent); }
+  50%       { filter: drop-shadow(0 0 8px rgba(10,132,255,0.5)); }
+}
+
+/* ─── Pulse for new notifications ────────────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.08); }
+}
+
+.pulse { animation: pulse 2s ease-in-out infinite; }
+
+/* ─── Smooth fade-in ──────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-in { animation: fadeIn var(--transition-normal) ease forwards; }
+
+/* ─── Slide up ────────────────────────────────────────────────────────────── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up { animation: slideUp var(--transition-normal) ease forwards; }
+
+/* ─── Loading spinner ─────────────────────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ─── Blinking cursor (terminal) ─────────────────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.cursor-blink { animation: blink 1s step-end infinite; }
+
+/* ─── Progress bar fill ───────────────────────────────────────────────────── */
+@keyframes progressFill {
+  from { width: 0; }
+  to   { width: var(--progress, 70%); }
+}
+
+.progress-fill { animation: progressFill 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s both; }
+
+/* ─── Typewriter ──────────────────────────────────────────────────────────── */
+@keyframes typing {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* ─── Reduce motion support ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

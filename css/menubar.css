@@ -1,0 +1,206 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   menubar.css – macOS Top Menu Bar
+   SAVIO OS – macOS-Inspired Desktop Portfolio
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Menu Bar Container ─────────────────────────────────────────────────── */
+#menubar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--menubar-height);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  background: var(--menubar-bg);
+  backdrop-filter: var(--menubar-blur);
+  -webkit-backdrop-filter: var(--menubar-blur);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  gap: 2px;
+}
+
+[data-theme="light"] #menubar {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* ─── Apple Logo ──────────────────────────────────────────────────────────── */
+#apple-menu {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  height: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: background var(--transition-fast);
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+#apple-menu:hover { background: rgba(255,255,255,0.12); }
+[data-theme="light"] #apple-menu:hover { background: rgba(0,0,0,0.08); }
+
+/* ─── Active App Name ─────────────────────────────────────────────────────── */
+#active-app-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 0 8px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  white-space: nowrap;
+}
+
+#active-app-name:hover { background: rgba(255,255,255,0.12); }
+
+/* ─── Menu Items (File, Edit, View…) ─────────────────────────────────────── */
+.menubar-items {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 2px;
+}
+
+.menubar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  height: 100%;
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  color: var(--text-primary);
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition-fast);
+}
+
+.menubar-item:hover,
+.menubar-item.active {
+  background: rgba(255,255,255,0.12);
+}
+[data-theme="light"] .menubar-item:hover,
+[data-theme="light"] .menubar-item.active {
+  background: rgba(0,0,0,0.08);
+}
+
+/* ─── Dropdown Menu ───────────────────────────────────────────────────────── */
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 200px;
+  background: rgba(44, 44, 46, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  padding: 4px;
+  z-index: 10001;
+  animation: contextMenuAppear 0.15s ease;
+}
+
+[data-theme="light"] .menu-dropdown {
+  background: rgba(242,242,247,0.95);
+  border-color: rgba(0,0,0,0.12);
+}
+
+.menubar-item.active .menu-dropdown { display: block; }
+
+.menu-dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  gap: 24px;
+}
+
+.menu-dropdown-item:hover {
+  background: var(--accent-blue);
+  color: #fff;
+}
+
+.menu-dropdown-item .shortcut {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+
+.menu-dropdown-item:hover .shortcut { color: rgba(255,255,255,0.7); }
+
+.menu-dropdown-separator {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 4px 8px;
+}
+
+/* ─── Right Side Indicators ──────────────────────────────────────────────── */
+.menubar-right {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.menubar-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 7px;
+  height: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  transition: background var(--transition-fast);
+  white-space: nowrap;
+}
+
+.menubar-indicator:hover { background: rgba(255,255,255,0.12); }
+[data-theme="light"] .menubar-indicator:hover { background: rgba(0,0,0,0.08); }
+
+.menubar-indicator svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* Clock */
+#menubar-clock {
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Notification Badge ─────────────────────────────────────────────────── */
+.notif-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  background: var(--accent-red);
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="finderBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#73c5f7"/>
+      <stop offset="100%" stop-color="#0c6fc4"/>
+    </linearGradient>
+    <linearGradient id="faceFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f7fa"/>
+      <stop offset="100%" stop-color="#d4d9e2"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="url(#finderBg)"/>
+  <rect x="12" y="14" width="76" height="72" rx="14" fill="url(#faceFace)"/>
+  <!-- Two tone face division -->
+  <path d="M50 14 L50 62 Q50 68 44 72 L36 78 Q30 82 24 84 L12 84 L12 14 Z" fill="#69aff5" opacity="0.45"/>
+  <!-- Eyes -->
+  <circle cx="34" cy="42" r="6" fill="#1b365d"/>
+  <circle cx="66" cy="42" r="6" fill="#1b365d"/>
+  <circle cx="36" cy="40" r="2" fill="#ffffff"/>
+  <circle cx="68" cy="40" r="2" fill="#ffffff"/>
+  <!-- Nose line -->
+  <path d="M50 40 L50 56 Q50 62 44 65" fill="none" stroke="#1b365d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Smile -->
+  <path d="M30 66 Q50 82 70 66" fill="none" stroke="#1b365d" stroke-width="4.5" stroke-linecap="round"/>
+</svg>

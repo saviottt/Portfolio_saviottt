@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="trashMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8e8e93"/>
+      <stop offset="100%" stop-color="#48484a"/>
+    </linearGradient>
+  </defs>
+  <!-- Trash Bin Wireframe/Metal -->
+  <path d="M28 32 L34 84 Q35 88 40 88 L60 88 Q65 88 66 84 L72 32 Z" fill="url(#trashMetal)"/>
+  <!-- Ridges -->
+  <line x1="42" y1="40" x2="43" y2="78" stroke="#aeaeb2" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="50" y1="40" x2="50" y2="78" stroke="#aeaeb2" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="58" y1="40" x2="57" y2="78" stroke="#aeaeb2" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Rim & Handle -->
+  <rect x="22" y="26" width="56" height="6" rx="3" fill="#aeaeb2"/>
+  <path d="M42 26 L42 20 Q42 18 45 18 L55 18 Q58 18 58 20 L58 26" fill="none" stroke="#aeaeb2" stroke-width="3" stroke-linecap="round"/>
+</svg>

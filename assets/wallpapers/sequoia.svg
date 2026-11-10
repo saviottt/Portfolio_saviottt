@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="seqBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a120e"/>
+      <stop offset="40%" stop-color="#14281e"/>
+      <stop offset="75%" stop-color="#234633"/>
+      <stop offset="100%" stop-color="#0e1f16"/>
+    </linearGradient>
+    <radialGradient id="rGreen" cx="60%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#064e3b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#seqBg)"/>
+  <rect width="1920" height="1080" fill="url(#rGreen)"/>
+  <!-- Sequoia topographical curves -->
+  <path d="M0,500 C300,700 700,400 1100,650 C1500,900 1700,500 1920,600 L1920,1080 L0,1080 Z" fill="#042f2e" opacity="0.45"/>
+  <path d="M0,720 C450,550 850,850 1300,680 C1650,550 1800,720 1920,680 L1920,1080 L0,1080 Z" fill="#064e3b" opacity="0.35"/>
+</svg>

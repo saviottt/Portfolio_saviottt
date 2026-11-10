@@ -1,0 +1,183 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   dock.css – macOS Bottom Dock
+   SAVIO OS – macOS-Inspired Desktop Portfolio
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Dock Wrapper (centers the pill) ───────────────────────────────────── */
+#dock-wrapper {
+  position: fixed;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ─── Dock Pill ───────────────────────────────────────────────────────────── */
+#dock {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 8px 14px 10px;
+  background: var(--dock-bg);
+  backdrop-filter: var(--dock-blur);
+  -webkit-backdrop-filter: var(--dock-blur);
+  border: 1px solid var(--dock-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5),
+              0 2px 8px rgba(0,0,0,0.3),
+              inset 0 1px 0 rgba(255,255,255,0.1);
+  pointer-events: all;
+  transition: box-shadow var(--transition-normal);
+}
+
+/* ─── Dock Separator (before Trash) ─────────────────────────────────────── */
+.dock-separator {
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.18);
+  align-self: center;
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+/* ─── Individual Dock Item ───────────────────────────────────────────────── */
+.dock-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  /* JS will set --dock-scale via inline style */
+  transition: transform 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: bottom center;
+}
+
+.dock-item:hover .dock-tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ─── Dock Icon Image ─────────────────────────────────────────────────────── */
+.dock-icon {
+  width: var(--dock-icon-size);
+  height: var(--dock-icon-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  line-height: 1;
+  border-radius: 22%;
+  transition: transform var(--transition-fast);
+  position: relative;
+  overflow: visible;
+}
+
+/* SVG icon inside dock */
+.dock-icon img,
+.dock-icon svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: inherit;
+}
+
+/* ─── Running Indicator Dot ──────────────────────────────────────────────── */
+.dock-indicator {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.75);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.dock-item.running .dock-indicator { opacity: 1; }
+
+/* ─── Tooltip ─────────────────────────────────────────────────────────────── */
+.dock-tooltip {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(28, 28, 30, 0.9);
+  color: rgba(255,255,255,0.92);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 7px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  z-index: 10000;
+}
+
+[data-theme="light"] .dock-tooltip {
+  background: rgba(44,44,46,0.9);
+  border-color: rgba(0,0,0,0.1);
+}
+
+.dock-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(28,28,30,0.9);
+}
+
+/* ─── Magnification (driven by JS --dock-scale variable) ─────────────────── */
+.dock-item {
+  --dock-scale: 1;
+  transform: scale(var(--dock-scale));
+}
+
+/* ─── Bounce animation on launch ─────────────────────────────────────────── */
+@keyframes dockBounce {
+  0%   { transform: scale(var(--dock-scale)) translateY(0); }
+  20%  { transform: scale(var(--dock-scale)) translateY(-18px); }
+  40%  { transform: scale(var(--dock-scale)) translateY(0); }
+  55%  { transform: scale(var(--dock-scale)) translateY(-10px); }
+  70%  { transform: scale(var(--dock-scale)) translateY(0); }
+  82%  { transform: scale(var(--dock-scale)) translateY(-5px); }
+  100% { transform: scale(var(--dock-scale)) translateY(0); }
+}
+
+.dock-item.bouncing {
+  animation: dockBounce 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* ─── Minimize target animation ──────────────────────────────────────────── */
+.dock-item.minimizing-target {
+  animation: dockPulse 0.3s ease;
+}
+
+@keyframes dockPulse {
+  0%   { transform: scale(var(--dock-scale)); }
+  50%  { transform: scale(calc(var(--dock-scale) * 1.2)); }
+  100% { transform: scale(var(--dock-scale)); }
+}
+
+/* ─── Trash icon states ───────────────────────────────────────────────────── */
+.dock-item[data-app="trash"] .dock-icon.full::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 1px;
+}

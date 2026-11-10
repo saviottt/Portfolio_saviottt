@@ -1,0 +1,219 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   desktop.css – Desktop, Wallpaper, Icons, Right-Click Context Menu
+   SAVIO OS – macOS-Inspired Desktop Portfolio
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Main Desktop Container ─────────────────────────────────────────────── */
+#desktop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: background var(--transition-slow);
+}
+
+/* ─── Wallpaper Layer ────────────────────────────────────────────────────── */
+#wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #533483 100%);
+  transition: background 0.8s ease;
+}
+
+/* Animated gradient overlay for depth */
+#wallpaper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(120,80,255,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(0,120,255,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ─── Desktop Canvas (between menu bar and dock) ─────────────────────────── */
+#desktop-canvas {
+  position: fixed;
+  top: var(--menubar-height);
+  left: 0;
+  right: 0;
+  bottom: calc(var(--dock-height) + 20px);
+  z-index: 10;
+  pointer-events: none; /* Windows live here too; pass through by default */
+}
+
+/* ─── Desktop Icons Grid ─────────────────────────────────────────────────── */
+#desktop-icons {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: all;
+}
+
+/* Individual desktop icon */
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 72px;
+  padding: 8px 4px 6px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.desktop-icon.selected {
+  background: rgba(10, 132, 255, 0.35);
+}
+
+.desktop-icon.dragging {
+  opacity: 0.75;
+  z-index: 999;
+  transform: scale(1.05);
+  cursor: grabbing;
+}
+
+/* Icon image/emoji */
+.desktop-icon-img {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  transition: transform var(--transition-fast);
+}
+
+.desktop-icon:hover .desktop-icon-img {
+  transform: scale(1.08);
+}
+
+/* Icon label */
+.desktop-icon-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 68px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.6);
+}
+
+/* Selection highlight on label */
+.desktop-icon.selected .desktop-icon-label {
+  background: rgba(10, 132, 255, 0.5);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+/* ─── Right-Click Context Menu ───────────────────────────────────────────── */
+#context-menu {
+  position: fixed;
+  z-index: 9999;
+  min-width: 200px;
+  background: rgba(44, 44, 46, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  padding: 4px;
+  display: none;
+  animation: contextMenuAppear 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+[data-theme="light"] #context-menu {
+  background: rgba(242, 242, 247, 0.92);
+  border: 1px solid rgba(0,0,0,0.12);
+}
+
+#context-menu.visible { display: block; }
+
+@keyframes contextMenuAppear {
+  from { opacity: 0; transform: scale(0.95) translateY(-4px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.context-menu-item:hover {
+  background: var(--accent-blue);
+  color: #fff;
+}
+
+.context-menu-item .icon {
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+  opacity: 0.75;
+}
+
+.context-menu-separator {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 4px 8px;
+}
+
+.context-menu-item.destructive:hover {
+  background: var(--accent-red);
+  color: #fff;
+}
+
+/* ─── Wallpaper Picker (in context menu) ─────────────────────────────────── */
+.wallpaper-picker {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px;
+  max-width: 220px;
+}
+
+.wallpaper-swatch {
+  width: 42px;
+  height: 28px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.wallpaper-swatch:hover { transform: scale(1.1); }
+.wallpaper-swatch.active { border-color: var(--accent-blue); }
+
+/* ─── Desktop Selection Rubber Band ─────────────────────────────────────── */
+#selection-box {
+  position: fixed;
+  border: 1px solid rgba(10, 132, 255, 0.6);
+  background: rgba(10, 132, 255, 0.12);
+  border-radius: 2px;
+  z-index: 9000;
+  display: none;
+  pointer-events: none;
+}

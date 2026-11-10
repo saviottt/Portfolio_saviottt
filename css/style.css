@@ -1,0 +1,233 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   style.css – CSS Variables, Resets, Global Typography
+   SAVIO OS – macOS-Inspired Desktop Portfolio
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Google Fonts Import ─────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── CSS Custom Properties (Design Tokens) ──────────────────────────────── */
+:root {
+  /* Typography */
+  --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", "Consolas", monospace;
+  --font-size-xs:   11px;
+  --font-size-sm:   12px;
+  --font-size-base: 13px;
+  --font-size-md:   14px;
+  --font-size-lg:   16px;
+  --font-size-xl:   20px;
+  --font-size-2xl:  24px;
+  --font-size-3xl:  32px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Border Radius */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   18px;
+  --radius-2xl:  22px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast:   0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-normal: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-slow:   0.4s  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-spring: 0.5s  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── DARK THEME (default) ─────────────────────────────────────────────── */
+  --bg-primary:       rgba(28, 28, 30, 0.95);
+  --bg-secondary:     rgba(44, 44, 46, 0.9);
+  --bg-tertiary:      rgba(58, 58, 60, 0.85);
+  --bg-glass:         rgba(255, 255, 255, 0.08);
+  --bg-glass-hover:   rgba(255, 255, 255, 0.12);
+  --bg-glass-active:  rgba(255, 255, 255, 0.16);
+  --bg-overlay:       rgba(0, 0, 0, 0.5);
+  --bg-sidebar:       rgba(28, 28, 30, 0.85);
+
+  --text-primary:     rgba(255, 255, 255, 0.92);
+  --text-secondary:   rgba(255, 255, 255, 0.60);
+  --text-tertiary:    rgba(255, 255, 255, 0.36);
+  --text-on-accent:   #ffffff;
+
+  --border-subtle:    rgba(255, 255, 255, 0.08);
+  --border-normal:    rgba(255, 255, 255, 0.14);
+  --border-strong:    rgba(255, 255, 255, 0.24);
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3);
+  --shadow-xl:  0 16px 48px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-window: 0 24px 72px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.4);
+
+  --blur-sm:    blur(8px);
+  --blur-md:    blur(16px);
+  --blur-lg:    blur(24px);
+  --blur-xl:    blur(40px);
+
+  /* macOS Accent Colors */
+  --accent-blue:    #0a84ff;
+  --accent-green:   #30d158;
+  --accent-red:     #ff453a;
+  --accent-yellow:  #ffd60a;
+  --accent-orange:  #ff9f0a;
+  --accent-pink:    #ff375f;
+  --accent-purple:  #bf5af2;
+  --accent-teal:    #40c8e0;
+  --accent-indigo:  #5e5ce6;
+
+  /* Traffic Light Colors */
+  --tl-close:    #ff5f57;
+  --tl-minimize: #febc2e;
+  --tl-maximize: #28c840;
+  --tl-hover-stroke: rgba(0,0,0,0.3);
+
+  /* Menu Bar */
+  --menubar-height:  28px;
+  --menubar-bg:      rgba(30, 30, 32, 0.80);
+  --menubar-blur:    blur(20px);
+
+  /* Dock */
+  --dock-height:     68px;
+  --dock-icon-size:  52px;
+  --dock-icon-max:   80px;
+  --dock-bg:         rgba(255, 255, 255, 0.10);
+  --dock-border:     rgba(255, 255, 255, 0.14);
+  --dock-blur:       blur(24px);
+}
+
+/* ── LIGHT THEME ────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-primary:      rgba(242, 242, 247, 0.95);
+  --bg-secondary:    rgba(255, 255, 255, 0.90);
+  --bg-tertiary:     rgba(228, 228, 230, 0.90);
+  --bg-glass:        rgba(255, 255, 255, 0.60);
+  --bg-glass-hover:  rgba(255, 255, 255, 0.75);
+  --bg-glass-active: rgba(255, 255, 255, 0.85);
+  --bg-overlay:      rgba(0, 0, 0, 0.35);
+  --bg-sidebar:      rgba(242, 242, 247, 0.85);
+
+  --text-primary:    rgba(0, 0, 0, 0.88);
+  --text-secondary:  rgba(0, 0, 0, 0.56);
+  --text-tertiary:   rgba(0, 0, 0, 0.32);
+
+  --border-subtle:   rgba(0, 0, 0, 0.06);
+  --border-normal:   rgba(0, 0, 0, 0.12);
+  --border-strong:   rgba(0, 0, 0, 0.20);
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.10);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.20), 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-xl:  0 16px 48px rgba(0,0,0,0.24), 0 8px 24px rgba(0,0,0,0.14);
+  --shadow-window: 0 24px 72px rgba(0,0,0,0.28), 0 8px 24px rgba(0,0,0,0.14);
+
+  --menubar-bg:  rgba(236, 236, 236, 0.75);
+  --dock-bg:     rgba(200, 200, 205, 0.55);
+  --dock-border: rgba(0, 0, 0, 0.12);
+}
+
+/* ─── Global Reset ────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  height: 100%;
+  font-family: var(--font-system);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  overflow: hidden;
+  user-select: none;
+  cursor: default;
+  transition: color var(--transition-normal);
+}
+
+/* ─── Scrollbars ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.35); }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); }
+
+/* ─── Typography Utilities ───────────────────────────────────────────────── */
+.text-xs  { font-size: var(--font-size-xs); }
+.text-sm  { font-size: var(--font-size-sm); }
+.text-base{ font-size: var(--font-size-base); }
+.text-md  { font-size: var(--font-size-md); }
+.text-lg  { font-size: var(--font-size-lg); }
+.text-xl  { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+
+.text-primary   { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary  { color: var(--text-tertiary); }
+
+.font-normal  { font-weight: 400; }
+.font-medium  { font-weight: 500; }
+.font-semi    { font-weight: 600; }
+.font-bold    { font-weight: 700; }
+
+/* ─── Glassmorphism Utility ──────────────────────────────────────────────── */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid var(--border-normal);
+}
+
+.glass-strong {
+  background: var(--bg-secondary);
+  backdrop-filter: var(--blur-lg);
+  -webkit-backdrop-filter: var(--blur-lg);
+  border: 1px solid var(--border-normal);
+}
+
+/* ─── Focus styles ───────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+/* ─── Selection ──────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(10, 132, 255, 0.4);
+  color: var(--text-primary);
+}
+
+/* ─── Utility: allow text selection inside apps ──────────────────────────── */
+.selectable, .selectable * {
+  user-select: text;
+  cursor: text;
+}
+
+.selectable a { cursor: pointer; }
+
+/* ─── Hidden utility ─────────────────────────────────────────────────────── */
+.hidden { display: none !important; }
+.invisible { visibility: hidden; }
+.opacity-0 { opacity: 0; }
+.pointer-events-none { pointer-events: none; }

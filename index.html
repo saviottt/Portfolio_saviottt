@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Savio OS – Don Savio Thomas</title>
+  <meta name="description" content="Don Savio Thomas – Portfolio as a macOS Desktop Experience" />
+
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- CSS – load order matters -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/desktop.css" />
+  <link rel="stylesheet" href="css/menubar.css" />
+  <link rel="stylesheet" href="css/dock.css" />
+  <link rel="stylesheet" href="css/windows.css" />
+  <link rel="stylesheet" href="css/applications.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     WALLPAPER LAYER
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="wallpaper"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     TOP MENU BAR
+     ════════════════════════════════════════════════════════════════════════ -->
+<nav id="menubar">
+  <!-- Apple Logo -->
+  <div id="apple-menu" class="menubar-item" title="Apple Menu">
+    <svg width="13" height="15" viewBox="0 0 170 200" fill="currentColor">
+      <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925 6.149-3.65 12.78-5.515 19.909-5.521 3.994 0 8.951 1.288 14.898 3.828 5.951 2.386 9.823 3.471 12.73 3.471 2.78 0 7.229-1.218 13.316-3.65 5.904-2.267 11.085-3.198 15.567-2.823 11.498.928 20.141 5.459 25.905 13.615-10.273 6.235-15.339 14.961-15.218 26.154.109 8.72 3.255 15.981 9.42 21.958 2.808 2.658 5.955 4.717 9.457 6.195-.759 2.198-1.559 4.304-2.407 6.433zM119.11 7.24c0 6.835-2.498 13.233-7.47 19.173-6.003 7.016-13.251 11.072-21.098 10.418-.099-.815-.158-1.671-.158-2.569 0-6.559 2.861-13.587 7.925-19.308 2.527-2.908 5.738-5.321 9.629-7.247 3.882-1.898 7.552-2.949 11.005-3.126.098.887.167 1.774.167 2.659z"/>
+    </svg>
+    <div class="menu-dropdown">
+      <div class="menu-dropdown-item" data-action="about-mac"><span>About Savio OS</span></div>
+      <div class="menu-dropdown-separator"></div>
+      <div class="menu-dropdown-item" data-action="control-center"><span>System Settings…</span></div>
+      <div class="menu-dropdown-item" data-action="launchpad"><span>Launchpad</span></div>
+      <div class="menu-dropdown-separator"></div>
+      <div class="menu-dropdown-item" data-action="sleep"><span>Sleep</span><span class="shortcut">⌥⌘⏏</span></div>
+      <div class="menu-dropdown-item" data-action="restart"><span>Restart…</span></div>
+      <div class="menu-dropdown-item" data-action="lock"><span>Lock Screen</span><span class="shortcut">⌃⌘Q</span></div>
+    </div>
+  </div>
+
+  <!-- Active app name -->
+  <div id="active-app-name" class="menubar-item">Finder</div>
+
+  <!-- Menu items -->
+  <div class="menubar-items">
+    <!-- File Menu -->
+    <div class="menubar-item">
+      File
+      <div class="menu-dropdown">
+        <div class="menu-dropdown-item" data-action="new-window"><span>New Window</span><span class="shortcut">⌘N</span></div>
+        <div class="menu-dropdown-item" data-action="new-folder"><span>New Folder</span><span class="shortcut">⌘⇧N</span></div>
+        <div class="menu-dropdown-separator"></div>
+        <div class="menu-dropdown-item" data-action="quit"><span>Close All Windows</span><span class="shortcut">⌘Q</span></div>
+      </div>
+    </div>
+
+    <!-- Edit Menu -->
+    <div class="menubar-item">
+      Edit
+      <div class="menu-dropdown">
+        <div class="menu-dropdown-item" data-action="edit-undo"><span>Undo</span><span class="shortcut">⌘Z</span></div>
+        <div class="menu-dropdown-item" data-action="edit-redo"><span>Redo</span><span class="shortcut">⌘⇧Z</span></div>
+        <div class="menu-dropdown-separator"></div>
+        <div class="menu-dropdown-item" data-action="edit-selectall"><span>Select All</span><span class="shortcut">⌘A</span></div>
+        <div class="menu-dropdown-item" data-action="spotlight"><span>Find…</span><span class="shortcut">⌘F</span></div>
+      </div>
+    </div>
+
+    <!-- View Menu -->
+    <div class="menubar-item">
+      View
+      <div class="menu-dropdown">
+        <div class="menu-dropdown-item" data-action="wallpaper"><span>Change Wallpaper</span></div>
+        <div class="menu-dropdown-item" data-action="dark-mode"><span>Toggle Dark Mode</span><span class="shortcut">⌘D</span></div>
+        <div class="menu-dropdown-separator"></div>
+        <div class="menu-dropdown-item" data-action="spotlight"><span>Spotlight Search</span><span class="shortcut">⌘Space</span></div>
+        <div class="menu-dropdown-item" data-action="launchpad"><span>Open Launchpad</span><span class="shortcut">F1</span></div>
+      </div>
+    </div>
+
+    <!-- Window Menu -->
+    <div class="menubar-item">
+      Window
+      <div class="menu-dropdown">
+        <div class="menu-dropdown-item" data-action="win-minimize"><span>Minimize</span><span class="shortcut">⌘M</span></div>
+        <div class="menu-dropdown-item" data-action="win-zoom"><span>Zoom</span></div>
+        <div class="menu-dropdown-separator"></div>
+        <div class="menu-dropdown-item" data-action="quit"><span>Close All</span><span class="shortcut">⌘W</span></div>
+      </div>
+    </div>
+
+    <!-- Help Menu -->
+    <div class="menubar-item">
+      Help
+      <div class="menu-dropdown">
+        <div class="menu-dropdown-item" data-action="about-mac"><span>About Savio OS</span></div>
+        <div class="menu-dropdown-item" data-action="help-contact"><span>Contact Developer</span></div>
+        <div class="menu-dropdown-separator"></div>
+        <div class="menu-dropdown-item" data-action="spotlight"><span>Search…</span><span class="shortcut">⌘Space</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side Indicators -->
+  <div class="menubar-right">
+    <!-- Spotlight search -->
+    <div class="menubar-indicator" id="spotlight-btn" title="Spotlight Search">🔍</div>
+
+    <!-- Theme toggle -->
+    <div class="menubar-indicator" id="theme-btn" title="Toggle Theme">☀️</div>
+
+    <!-- WiFi -->
+    <div class="menubar-indicator" title="Wi-Fi">
+      <svg width="16" height="12" viewBox="0 0 24 18" fill="currentColor" opacity="0.85">
+        <path d="M12 14.5l3.5-3.5a5 5 0 0 0-7 0l3.5 3.5zm0 0l1.5 1.5-1.5 1.5-1.5-1.5 1.5-1.5zm-6.5-6.5a9 9 0 0 1 13 0l1.5-1.5a11 11 0 0 0-16 0l1.5 1.5zm-3-3A14 14 0 0 1 21.5 5l1.5-1.5A16 16 0 0 0 1 3.5L2.5 5z"/>
+      </svg>
+    </div>
+
+    <!-- Battery -->
+    <div class="menubar-indicator" title="Battery">
+      <svg width="22" height="11" viewBox="0 0 22 11" fill="currentColor" opacity="0.85">
+        <rect x="0.5" y="0.5" width="18" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1"/>
+        <rect x="19.5" y="3" width="2" height="5" rx="1" fill="currentColor" opacity="0.6"/>
+        <rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="currentColor" opacity="0.75"/>
+      </svg>
+      <span style="font-size:11px;">85%</span>
+    </div>
+
+    <!-- Date -->
+    <div class="menubar-indicator" title="Date">
+      <span id="menubar-date"></span>
+    </div>
+
+    <!-- Clock -->
+    <div class="menubar-indicator" title="Time">
+      <span id="menubar-clock"></span>
+    </div>
+
+    <!-- Notification button -->
+    <div class="menubar-indicator" id="notif-btn" title="Notifications" style="position:relative;">
+      🔔
+    </div>
+
+    <!-- Control Center -->
+    <div class="menubar-indicator" id="cc-btn" title="Control Center">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" opacity="0.85">
+        <circle cx="6"  cy="6"  r="2.5"/>
+        <circle cx="12" cy="6"  r="2.5"/>
+        <circle cx="18" cy="6"  r="2.5"/>
+        <circle cx="6"  cy="12" r="2.5"/>
+        <circle cx="12" cy="12" r="2.5"/>
+        <circle cx="18" cy="12" r="2.5"/>
+        <circle cx="6"  cy="18" r="2.5"/>
+        <circle cx="12" cy="18" r="2.5"/>
+        <circle cx="18" cy="18" r="2.5"/>
+      </svg>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     DESKTOP CANVAS (icons layer)
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="desktop-canvas">
+  <div id="desktop-icons"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     DOCK
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="dock-wrapper">
+  <div id="dock"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     RIGHT-CLICK CONTEXT MENU
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="context-menu">
+  <div class="context-menu-item" data-action="new-folder">
+    <span class="icon">📁</span> New Folder
+  </div>
+  <div class="context-menu-item" data-action="wallpaper">
+    <span class="icon">🖼️</span> Change Wallpaper
+  </div>
+  <div class="context-menu-separator"></div>
+  <div class="context-menu-item" data-action="spotlight">
+    <span class="icon">🔍</span> Spotlight Search
+  </div>
+  <div class="context-menu-item" data-action="about-mac">
+    <span class="icon">ℹ️</span> About This Mac
+  </div>
+  <div class="context-menu-separator"></div>
+  <div class="context-menu-item" data-action="refresh">
+    <span class="icon">↻</span> Reload Desktop
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     SPOTLIGHT OVERLAY
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="spotlight-overlay">
+  <div id="spotlight-panel">
+    <div id="spotlight-input-wrapper">
+      <span id="spotlight-search-icon">🔍</span>
+      <input
+        type="text"
+        id="spotlight-input"
+        placeholder="Spotlight Search"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+    <div id="spotlight-results"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     LAUNCHPAD OVERLAY
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="launchpad-overlay">
+  <div id="launchpad-search-wrap">
+    <input
+      type="search"
+      id="launchpad-search"
+      placeholder="Search"
+      autocomplete="off"
+      spellcheck="false"
+    />
+  </div>
+  <div id="launchpad-grid"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     CONTROL CENTER
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="control-center"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     NOTIFICATION CENTER (toast container)
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="notification-center"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     JAVASCRIPT – load order matters
+     ════════════════════════════════════════════════════════════════════════ -->
+<script src="js/config.js"></script>
+<script src="js/window-manager.js"></script>
+<script src="js/terminal.js"></script>
+<script src="js/applications.js"></script>
+<script src="js/spotlight.js"></script>
+<script src="js/launchpad.js"></script>
+<script src="js/control-center.js"></script>
+<script src="js/menubar.js"></script>
+<script src="js/desktop.js"></script>
+<script src="js/dock.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
