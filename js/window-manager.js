@@ -35,21 +35,23 @@ class WindowManager {
     const id  = `win-${Date.now()}-${Math.random().toString(36).slice(2,6)}`;
     const cfg = window.APP_CONFIGS?.[appId] || {};
 
+    const isMobile = window.innerWidth <= 768;
     // Defaults
-    const w = options.width  || cfg.width  || 800;
-    const h = options.height || cfg.height || 560;
+    const w = isMobile ? window.innerWidth : (options.width  || cfg.width  || 800);
+    const h = isMobile ? (window.innerHeight - 90) : (options.height || cfg.height || 560);
     const title = options.title || cfg.title || appId;
 
-    // Cascade position
-    const offset = (this.windows.size % 8) * 24;
-    const x = options.x ?? Math.max(20, (window.innerWidth  - w) / 2 + offset);
-    const y = options.y ?? Math.max(28, (window.innerHeight - h) / 2 + offset - 40);
+    // Cascade position (only on desktop)
+    const offset = isMobile ? 0 : (this.windows.size % 8) * 24;
+    const x = isMobile ? 0 : (options.x ?? Math.max(20, (window.innerWidth  - w) / 2 + offset));
+    const y = isMobile ? 38 : (options.y ?? Math.max(28, (window.innerHeight - h) / 2 + offset - 40));
 
     // Build window element
     const el = this._buildWindow(id, appId, title, w, h, x, y);
+    if (isMobile) el.classList.add('mobile-mode');
     document.body.appendChild(el);
 
-    this.windows.set(id, { el, appId, minimized: false, maximized: false, title });
+    this.windows.set(id, { el, appId, minimized: false, maximized: isMobile, title });
 
     // Open animation
     requestAnimationFrame(() => {
@@ -262,6 +264,24 @@ class WindowManager {
     document.addEventListener('mousedown', (e) => this._onMouseDown(e));
     document.addEventListener('mousemove', (e) => this._onMouseMove(e));
     document.addEventListener('mouseup',   (e) => this._onMouseUp(e));
+
+    // Touch support for traffic lights & focus
+    document.addEventListener('touchstart', (e) => {
+      const btn = e.target.closest('[data-action]');
+      if (btn) {
+        e.stopPropagation();
+        const action = btn.dataset.action;
+        const id     = btn.dataset.id;
+        if (action === 'close')    this.close(id);
+        if (action === 'minimize') this.minimize(id);
+        if (action === 'maximize') this.maximize(id);
+        return;
+      }
+      const win = e.target.closest('.window');
+      if (win) {
+        this.focus(win.id);
+      }
+    }, { passive: true });
   }
 
   _onMouseDown(e) {

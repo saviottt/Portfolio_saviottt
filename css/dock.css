@@ -169,7 +169,6 @@
   100% { transform: scale(var(--dock-scale)); }
 }
 
-/* ─── Trash icon states ───────────────────────────────────────────────────── */
 .dock-item[data-app="trash"] .dock-icon.full::after {
   content: '';
   position: absolute;
@@ -181,3 +180,48 @@
   background: rgba(255,255,255,0.4);
   border-radius: 1px;
 }
+
+/* ─── Mobile Dock (<= 768px) ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #dock-wrapper {
+    bottom: 6px;
+    padding: 0 4px;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #dock-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  #dock {
+    margin: 0 auto;
+    padding: 5px 8px 7px;
+    gap: 3px;
+    border-radius: 16px;
+    max-width: 96vw;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #dock::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dock-icon {
+    width: var(--dock-icon-size);
+    height: var(--dock-icon-size);
+  }
+
+  .dock-separator {
+    height: 26px;
+    margin: 0 1px;
+  }
+
+  /* Don't show stuck tooltips on touch devices */
+  .dock-tooltip {
+    display: none !important;
+  }
+}
+

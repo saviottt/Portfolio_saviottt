@@ -32,10 +32,13 @@ window.Launchpad = {
       this._renderGrid(filtered);
     });
 
-    // Click outside grid to close
+    // Click / touch outside grid to close
     this.overlay.addEventListener('click', (e) => {
       if (e.target === this.overlay) this.hide();
     });
+    this.overlay.addEventListener('touchstart', (e) => {
+      if (e.target === this.overlay) this.hide();
+    }, { passive: true });
   },
 
   // ─── Show Launchpad ───────────────────────────────────────────────────────

@@ -31,10 +31,13 @@ window.Spotlight = {
       if (e.key === 'Enter')     { this._activateSelected(); }
     });
 
-    // Click outside to close
+    // Click / touch outside to close
     this.overlay.addEventListener('click', (e) => {
       if (e.target === this.overlay) this.hide();
     });
+    this.overlay.addEventListener('touchstart', (e) => {
+      if (e.target === this.overlay) this.hide();
+    }, { passive: true });
   },
 
   // ─── Build searchable index ───────────────────────────────────────────────

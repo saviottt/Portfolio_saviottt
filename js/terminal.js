@@ -14,6 +14,17 @@ window.TerminalApp = {
   render(el, winId) {
     el.innerHTML = `
       <div class="terminal-app" id="${winId}-term">
+        <!-- Mobile Quick-Command Bar -->
+        <div class="terminal-mobile-bar">
+          <button class="term-m-btn" data-tcmd="help">help</button>
+          <button class="term-m-btn" data-tcmd="about">about</button>
+          <button class="term-m-btn" data-tcmd="projects">projects</button>
+          <button class="term-m-btn" data-tcmd="skills">skills</button>
+          <button class="term-m-btn" data-tcmd="neofetch">neofetch</button>
+          <button class="term-m-btn" data-tcmd="clear">clear</button>
+          <button class="term-m-btn" data-tcmd="hist-up" title="Previous command">↑</button>
+          <button class="term-m-btn" data-tcmd="hist-down" title="Next command">↓</button>
+        </div>
         <div class="terminal-output" id="${winId}-out"></div>
         <div class="terminal-input-row" id="${winId}-row">
           ${this._promptHTML()}
@@ -34,6 +45,34 @@ window.TerminalApp = {
     const inputEl  = document.getElementById(`${winId}-inp`);
     this.instances[winId] = { outputEl, inputEl };
 
+    // Mobile quick command bar clicks
+    el.querySelectorAll('.term-m-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cmd = btn.dataset.tcmd;
+        if (cmd === 'hist-up') {
+          if (this.histIndex < this.history.length - 1) {
+            this.histIndex++;
+            inputEl.value = this.history[this.histIndex] || '';
+          }
+        } else if (cmd === 'hist-down') {
+          if (this.histIndex > 0) {
+            this.histIndex--;
+            inputEl.value = this.history[this.histIndex] || '';
+          } else {
+            this.histIndex = -1;
+            inputEl.value = '';
+          }
+        } else if (cmd) {
+          // Run command directly
+          this._print(winId, `${this._promptHTML()}<span class="t-cmd">${this._escape(cmd)}</span>`, '');
+          this.history.unshift(cmd);
+          this._execute(winId, cmd);
+          inputEl.value = '';
+        }
+      });
+    });
+
     // Welcome banner
     this._print(winId, this._welcome(), 't-out');
 
@@ -43,8 +82,10 @@ window.TerminalApp = {
     // Click anywhere in terminal → focus input
     el.querySelector('.terminal-app').addEventListener('click', () => inputEl.focus());
 
-    // Auto-focus
-    setTimeout(() => inputEl.focus(), 50);
+    // Auto-focus on desktop only
+    if (window.innerWidth > 768) {
+      setTimeout(() => inputEl.focus(), 50);
+    }
   },
 
   // ─── Prompt HTML ─────────────────────────────────────────────────────────

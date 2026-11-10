@@ -204,3 +204,56 @@
   top: 2px;
   right: 2px;
 }
+
+/* ─── Mobile Menubar (<= 768px) ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #menubar {
+    padding: 0 8px;
+    font-size: 13px;
+    height: var(--menubar-height);
+  }
+
+  /* Hide desktop text menus */
+  .menubar-items {
+    display: none !important;
+  }
+
+  #apple-menu {
+    padding: 0 6px;
+    font-size: 16px;
+  }
+
+  #active-app-name {
+    font-size: 13px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4px;
+  }
+
+  /* Hide date text on mobile to avoid overflow */
+  #menubar-date {
+    display: none;
+  }
+
+  /* Hide battery percentage text on mobile */
+  .menubar-indicator[title="Battery"] span {
+    display: none;
+  }
+
+  .menubar-indicator {
+    padding: 0 5px;
+    font-size: 13px;
+  }
+
+  .menu-dropdown {
+    position: fixed;
+    top: calc(var(--menubar-height) + 4px);
+    left: 8px;
+    right: 8px;
+    min-width: unset;
+    width: auto;
+    max-width: 340px;
+  }
+}
+

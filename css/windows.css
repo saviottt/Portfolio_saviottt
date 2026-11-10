@@ -528,3 +528,113 @@
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
+
+/* ─── Mobile Windows & Overlays (<= 768px) ──────────────────────────────── */
+@media (max-width: 768px) {
+  .window {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    left: 0 !important;
+    top: var(--menubar-height) !important;
+    width: 100vw !important;
+    height: calc(100vh - var(--menubar-height) - var(--dock-height) - 10px) !important;
+    height: calc(100dvh - var(--menubar-height) - var(--dock-height) - 10px) !important;
+    border-radius: 18px 18px 0 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+  }
+
+  .window-titlebar {
+    height: 44px;
+    padding: 0 14px;
+  }
+
+  .window-controls {
+    gap: 12px;
+  }
+
+  /* Make traffic light buttons touch-friendly */
+  .window-btn {
+    width: 15px;
+    height: 15px;
+  }
+
+  .window-btn::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+  }
+
+  .window-btn .btn-icon {
+    opacity: 0.8 !important;
+    font-size: 8px;
+  }
+
+  .window-title {
+    font-size: 13px;
+    max-width: 50vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Disable desktop resize handles on mobile */
+  .resize-handle {
+    display: none !important;
+  }
+
+  /* Mobile Spotlight */
+  #spotlight-overlay {
+    padding-top: 8vh;
+  }
+
+  #spotlight-panel {
+    width: 94vw;
+    border-radius: 18px;
+  }
+
+  #spotlight-input-wrapper {
+    padding: 12px 14px;
+  }
+
+  #spotlight-input {
+    font-size: 16px;
+  }
+
+  /* Mobile Launchpad */
+  #launchpad-overlay {
+    padding-top: 36px;
+  }
+
+  #launchpad-search-wrap {
+    margin-bottom: 20px;
+  }
+
+  #launchpad-search {
+    width: 80vw;
+    max-width: 260px;
+  }
+
+  #launchpad-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px 8px;
+    width: 92vw;
+    max-width: 380px;
+  }
+
+  .launchpad-icon-img {
+    width: 52px;
+    height: 52px;
+    font-size: 40px;
+  }
+
+  /* Mobile Control Center */
+  #control-center {
+    width: calc(100vw - 16px);
+    right: 8px;
+    left: 8px;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+}
+

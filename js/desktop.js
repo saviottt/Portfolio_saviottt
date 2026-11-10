@@ -38,10 +38,19 @@ window.Desktop = {
       </div>
     `).join('');
 
-    // Double-click to open
+    // Click or tap to open
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.innerWidth <= 768;
+
     container.querySelectorAll('.desktop-icon').forEach(icon => {
       let clicks = 0;
       icon.addEventListener('click', () => {
+        if (isTouchDevice) {
+          // Single tap on mobile directly launches the app!
+          window.WM?.open(icon.dataset.app);
+          return;
+        }
+
+        // Desktop double-click
         clicks++;
         if (clicks === 1) {
           icon.classList.add('selected');
@@ -54,7 +63,7 @@ window.Desktop = {
         }
       });
 
-      // Drag desktop icons
+      // Drag desktop icons (mouse and touch)
       this._makeIconDraggable(icon);
     });
 
@@ -64,62 +73,115 @@ window.Desktop = {
     });
   },
 
-  // ─── Make a desktop icon draggable ───────────────────────────────────────
+  // ─── Make a desktop icon draggable (Mouse + Touch) ───────────────────────
   _makeIconDraggable(icon) {
     let dragging = false, startX, startY, origLeft, origTop;
 
-    icon.addEventListener('mousedown', (e) => {
-      if (e.button !== 0) return;
-      e.stopPropagation();
-      startX = e.clientX;
-      startY = e.clientY;
+    const startDrag = (clientX, clientY) => {
+      startX = clientX;
+      startY = clientY;
       const rect = icon.getBoundingClientRect();
       origLeft = rect.left;
       origTop  = rect.top;
       dragging = false;
+    };
 
-      const onMove = (e) => {
-        const dx = e.clientX - startX;
-        const dy = e.clientY - startY;
-        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
-          dragging = true;
-          icon.classList.add('dragging');
-          icon.style.position = 'fixed';
-          icon.style.left = (origLeft + dx) + 'px';
-          icon.style.top  = (origTop  + dy) + 'px';
-          icon.style.zIndex = '9999';
-        }
-      };
+    const moveDrag = (clientX, clientY) => {
+      const dx = clientX - startX;
+      const dy = clientY - startY;
+      if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+        dragging = true;
+        icon.classList.add('dragging');
+        icon.style.position = 'fixed';
+        icon.style.left = (origLeft + dx) + 'px';
+        icon.style.top  = (origTop  + dy) + 'px';
+        icon.style.zIndex = '9999';
+      }
+    };
 
+    const endDrag = () => {
+      if (dragging) {
+        icon.classList.remove('dragging');
+      }
+      dragging = false;
+    };
+
+    // Mouse handlers
+    icon.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      e.stopPropagation();
+      startDrag(e.clientX, e.clientY);
+
+      const onMove = (e) => moveDrag(e.clientX, e.clientY);
       const onUp = () => {
-        if (dragging) {
-          icon.classList.remove('dragging');
-        }
-        dragging = false;
+        endDrag();
         document.removeEventListener('mousemove', onMove);
         document.removeEventListener('mouseup', onUp);
       };
-
       document.addEventListener('mousemove', onMove);
       document.addEventListener('mouseup', onUp);
     });
+
+    // Touch handlers
+    icon.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      startDrag(t.clientX, t.clientY);
+
+      const onTouchMove = (e) => {
+        if (e.touches.length === 1) {
+          moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      };
+      const onTouchEnd = () => {
+        endDrag();
+        document.removeEventListener('touchmove', onTouchMove);
+        document.removeEventListener('touchend', onTouchEnd);
+      };
+      document.addEventListener('touchmove', onTouchMove, { passive: true });
+      document.addEventListener('touchend', onTouchEnd);
+    }, { passive: true });
   },
 
-  // ─── Context Menu ─────────────────────────────────────────────────────────
+  // ─── Context Menu (Right-Click & Long-Press) ──────────────────────────────
   _bindContextMenu() {
     const menu = document.getElementById('context-menu');
     if (!menu) return;
 
     // Show on right-click on wallpaper / desktop canvas
     ['wallpaper', 'desktop-canvas'].forEach(id => {
-      document.getElementById(id)?.addEventListener('contextmenu', (e) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      el.addEventListener('contextmenu', (e) => {
         e.preventDefault();
         this._showContextMenu(e.clientX, e.clientY);
+      });
+
+      // Long-press (500ms) on touchscreens
+      let pressTimer = null;
+      el.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        const t = e.touches[0];
+        pressTimer = setTimeout(() => {
+          this._showContextMenu(t.clientX, t.clientY);
+        }, 500);
+      }, { passive: true });
+
+      el.addEventListener('touchmove', () => {
+        if (pressTimer) clearTimeout(pressTimer);
+      }, { passive: true });
+
+      el.addEventListener('touchend', () => {
+        if (pressTimer) clearTimeout(pressTimer);
       });
     });
 
     // Hide on click elsewhere
     document.addEventListener('click', () => menu.classList.remove('visible'));
+    document.addEventListener('touchstart', (e) => {
+      if (!menu.contains(e.target)) menu.classList.remove('visible');
+    }, { passive: true });
     document.addEventListener('contextmenu', () => menu.classList.remove('visible'));
   },
 

@@ -26,14 +26,17 @@ window.ControlCenter = {
   show() {
     this._render();
     this.panel?.classList.add('visible');
-    // Click outside to close
+    // Click / touch outside to close
     setTimeout(() => {
       document.addEventListener('click', this._closeOutside, { once: true, capture: true });
+      document.addEventListener('touchstart', this._closeOutside, { once: true, capture: true });
     }, 50);
   },
 
   hide() {
     this.panel?.classList.remove('visible');
+    document.removeEventListener('click', this._closeOutside, { capture: true });
+    document.removeEventListener('touchstart', this._closeOutside, { capture: true });
   },
 
   toggle() {
@@ -43,7 +46,8 @@ window.ControlCenter = {
 
   _closeOutside(e) {
     const cc = document.getElementById('control-center');
-    if (cc && !cc.contains(e.target)) {
+    const ccBtn = document.getElementById('cc-btn');
+    if (cc && !cc.contains(e.target) && (!ccBtn || !ccBtn.contains(e.target))) {
       window.ControlCenter.hide();
     }
   },

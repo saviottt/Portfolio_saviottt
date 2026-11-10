@@ -226,8 +226,28 @@ body {
 
 .selectable a { cursor: pointer; }
 
-/* ─── Hidden utility ─────────────────────────────────────────────────────── */
 .hidden { display: none !important; }
 .invisible { visibility: hidden; }
 .opacity-0 { opacity: 0; }
 .pointer-events-none { pointer-events: none; }
+
+/* ─── Touch Action & Tap Highlights ─────────────────────────────────────── */
+button, a, .dock-item, .menubar-item, .menubar-indicator, .desktop-icon, .window-btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Mobile Tokens & Overrides ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    --menubar-height: 38px;
+    --dock-height: 60px;
+    --dock-icon-size: 40px;
+    --font-size-base: 13px;
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+

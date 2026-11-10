@@ -217,3 +217,40 @@
   display: none;
   pointer-events: none;
 }
+
+/* ─── Mobile Desktop (<= 768px) ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #desktop-icons {
+    top: 10px;
+    right: 8px;
+    gap: 8px;
+  }
+
+  .desktop-icon {
+    width: 60px;
+    padding: 4px 2px;
+  }
+
+  .desktop-icon-img {
+    width: 42px;
+    height: 42px;
+    font-size: 30px;
+  }
+
+  .desktop-icon-label {
+    font-size: 10px;
+    max-width: 58px;
+  }
+
+  #context-menu {
+    max-width: calc(100vw - 24px);
+    border-radius: 14px;
+    padding: 6px;
+  }
+
+  .context-menu-item {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
