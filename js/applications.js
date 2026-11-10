@@ -48,7 +48,7 @@ window.addEventListener('app:render', ({ detail: { id, appId, el } }) => {
 function renderFinder(el, winId) {
   const C = window.CONFIG;
   const folders = [
-    { name: 'Projects', icon: '📁', color: '#0a84ff', items: C.projects.map(p => ({ name: p.name, icon: '📄', type: 'project', data: p })) },
+    { name: 'Projects', icon: '📁', color: '#0a84ff', items: C.projects.map(p => ({ name: p.name, subtitle: p.subtitle, icon: p.icon || '🚀', type: 'project', url: p.github || (p.demo !== '#' ? p.demo : 'https://github.com/saviottt'), data: p })) },
     { name: 'Skills',   icon: '📁', color: '#30d158', items: Object.entries(C.skills).map(([k,v]) => ({ name: k, icon: '📋', type: 'skill', data: v })) },
     { name: 'Education',icon: '📁', color: '#ffd60a', items: C.education.map(e => ({ name: e.degree, icon: '🎓', type: 'edu', data: e })) },
     { name: 'Personal', icon: '📁', color: '#ff9f0a', items: [{ name: 'Resume.pdf', icon: '📄', type: 'resume' }, { name: 'Portfolio', icon: '🌐', type: 'safari' }, { name: 'GitHub', icon: '🐙', type: 'github' }] },
@@ -155,28 +155,64 @@ function renderFinder(el, winId) {
     const main = el.querySelector(`#${winId}-main`);
     if (!main) return;
 
-    // Double-click folder to open it in Finder
+    // Folder opening (double-click on desktop, single-tap on mobile)
     main.querySelectorAll('[data-folder-name]').forEach(fEl => {
-      fEl.addEventListener('dblclick', () => {
+      const openFolder = () => {
         const fName = fEl.dataset.folderName;
         const target = folders.find(f => f.name.toLowerCase() === fName.toLowerCase());
         if (target) {
           currentFolder = target;
-          el.querySelectorAll('.finder-sidebar-item').forEach(x => x.classList.remove('active'));
+          el.querySelectorAll('.finder-sidebar-item').forEach(x => {
+            x.classList.toggle('active', x.textContent.trim().toLowerCase().includes(target.name.toLowerCase()));
+          });
           updateFinderContent();
         }
-      });
+      };
+
+      fEl.addEventListener('dblclick', openFolder);
+      if (('ontouchstart' in window) || window.innerWidth <= 768) {
+        fEl.addEventListener('click', openFolder);
+      }
     });
 
-    // Double-click file to open associated app
+    // File and project links
     main.querySelectorAll('[data-file-type]').forEach(fEl => {
-      fEl.addEventListener('dblclick', () => {
-        const type = fEl.dataset.fileType;
-        if (type === 'project') window.WM?.open('projects');
-        else if (type === 'skill' || type === 'edu') window.WM?.open('about');
-        else if (type === 'resume') window.WM?.open('resume');
-        else if (type === 'safari') window.WM?.open('safari');
-        else if (type === 'github') window.WM?.open('github');
+      const type = fEl.dataset.fileType;
+      const url  = fEl.dataset.url;
+
+      const openItem = (e) => {
+        if (type === 'project' && url) {
+          window.open(url, '_blank');
+          if (e) e.preventDefault();
+        } else if (type === 'project') {
+          window.WM?.open('projects');
+          if (e) e.preventDefault();
+        } else if (type === 'skill' || type === 'edu') {
+          window.WM?.open('about');
+          if (e) e.preventDefault();
+        } else if (type === 'resume') {
+          window.WM?.open('resume');
+          if (e) e.preventDefault();
+        } else if (type === 'safari') {
+          window.WM?.open('safari');
+          if (e) e.preventDefault();
+        } else if (type === 'github') {
+          window.open(C.social.github, '_blank');
+          if (e) e.preventDefault();
+        }
+      };
+
+      // Direct single click/tap on project link opens the project
+      fEl.addEventListener('click', (e) => {
+        if (type === 'project' && url) {
+          openItem(e);
+        } else if (('ontouchstart' in window) || window.innerWidth <= 768) {
+          openItem(e);
+        }
+      });
+
+      fEl.addEventListener('dblclick', (e) => {
+        openItem(e);
       });
     });
   };
@@ -229,11 +265,31 @@ function renderFinderHome(folders, viewMode, query = '') {
 }
 
 function renderFinderGrid(items) {
-  return `<div class="finder-grid">${items.map(item => `
-    <div class="finder-file" data-file-type="${item.type || 'generic'}" title="Double-click to open">
-      <div class="finder-file-icon">${item.icon}</div>
-      <div class="finder-file-name">${item.name}</div>
-    </div>`).join('')}
+  return `<div class="finder-grid">${items.map(item => {
+    const isLink = Boolean(item.url);
+    const tag = isLink ? 'a' : 'div';
+    const hrefAttr = isLink ? `href="${item.url}" target="_blank" rel="noopener"` : '';
+    const badge = isLink ? '<span class="finder-alias-badge">↗</span>' : '';
+    const titleText = isLink
+      ? `Click to open ${item.name} (${item.url})`
+      : 'Double-click to open';
+
+    return `
+      <${tag} class="finder-file ${isLink ? 'finder-link-file' : ''}"
+        ${hrefAttr}
+        data-file-type="${item.type || 'generic'}"
+        data-url="${item.url || ''}"
+        data-name="${item.name}"
+        title="${titleText}">
+        <div class="finder-file-icon">
+          ${item.icon}
+          ${badge}
+        </div>
+        <div class="finder-file-name">${item.name}</div>
+        ${item.subtitle ? `<div class="finder-file-sub">${item.subtitle}</div>` : ''}
+      </${tag}>
+    `;
+  }).join('')}
   </div>`;
 }
 
@@ -241,14 +297,33 @@ function renderFinderList(items) {
   return `
     <div class="finder-list">
       <div class="finder-list-header">
-        <div>Name</div><div>Size</div><div>Kind</div>
+        <div>Name</div><div>Kind</div><div>Link / Details</div>
       </div>
-      ${items.map(item => `
-        <div class="finder-list-row" data-file-type="${item.type || 'generic'}" title="Double-click to open">
-          <div class="finder-list-name"><span class="file-icon">${item.icon}</span>${item.name}</div>
-          <div class="finder-list-size">—</div>
-          <div class="finder-list-date">${item.type ? item.type.toUpperCase() : 'Document'}</div>
-        </div>`).join('')}
+      ${items.map(item => {
+        const isLink = Boolean(item.url);
+        const tag = isLink ? 'a' : 'div';
+        const hrefAttr = isLink ? `href="${item.url}" target="_blank" rel="noopener"` : '';
+        const titleText = isLink ? `Click to open ${item.name} (${item.url})` : 'Double-click to open';
+        const kindLabel = isLink ? 'Web Link ↗' : (item.type ? item.type.toUpperCase() : 'Document');
+        const detailLabel = item.url ? item.url.replace(/^https?:\/\//, '') : (item.subtitle || '—');
+
+        return `
+          <${tag} class="finder-list-row ${isLink ? 'finder-link-row' : ''}"
+            ${hrefAttr}
+            data-file-type="${item.type || 'generic'}"
+            data-url="${item.url || ''}"
+            data-name="${item.name}"
+            title="${titleText}">
+            <div class="finder-list-name">
+              <span class="file-icon">${item.icon}</span>
+              <span>${item.name}</span>
+              ${isLink ? '<span class="finder-link-tag">↗</span>' : ''}
+            </div>
+            <div class="finder-list-date">${kindLabel}</div>
+            <div class="finder-list-size" style="color:var(--accent-blue);text-overflow:ellipsis;overflow:hidden;white-space:nowrap;">${detailLabel}</div>
+          </${tag}>
+        `;
+      }).join('')}
     </div>`;
 }
 
@@ -329,11 +404,13 @@ function renderProjects(el) {
       ${C.projects.map(p => `
         <div class="project-card">
           <div class="project-card-top">
-            <div class="project-emoji" style="background:${p.color}22;border:1px solid ${p.color}44">
+            <a class="project-emoji" href="${p.github}" target="_blank" rel="noopener" title="Open ${p.name} repository" style="background:${p.color}22;border:1px solid ${p.color}44;text-decoration:none;">
               ${p.icon}
-            </div>
+            </a>
             <div>
-              <div class="project-title">${p.name}</div>
+              <a class="project-title-link" href="${p.github}" target="_blank" rel="noopener" title="Open ${p.name} repository">
+                <span class="project-title">${p.name}</span> <span class="ext-icon" style="font-size:12px;opacity:0.7;">↗</span>
+              </a>
               <div class="project-subtitle">${p.subtitle}</div>
               <span class="project-status ${p.status === 'Completed' ? 'status-completed' : 'status-progress'}">
                 ${p.status === 'Completed' ? '✓' : '⏳'} ${p.status}

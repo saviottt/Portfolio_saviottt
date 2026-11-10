@@ -62,23 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ─── Boot notification ───────────────────────────────────────────────────
-  setTimeout(() => {
-    window.Notifications?.push(
-      'Welcome to Savio OS',
-      'Click dock icons to open apps. Try Cmd+Space for Spotlight.',
-      '👋'
-    );
-  }, 800);
-
-  setTimeout(() => {
-    window.Notifications?.push(
-      'Terminal Ready',
-      'Open Terminal and type "help" to see available commands.',
-      '⬛'
-    );
-  }, 3500);
-
   // ─── Set initial theme ───────────────────────────────────────────────────
   document.documentElement.dataset.theme = 'dark';
 

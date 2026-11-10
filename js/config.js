@@ -120,11 +120,12 @@ const CONFIG = {
 
   // ─── Wallpapers ───────────────────────────────────────────────────────────
   wallpapers: [
-    { id: "sonoma",   name: "Sonoma",    css: "linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #533483 100%)" },
-    { id: "sequoia",  name: "Sequoia",   css: "linear-gradient(135deg, #0d1117 0%, #1a3a2a 40%, #2d5a3d 70%, #0d2818 100%)" },
-    { id: "monterey", name: "Monterey",  css: "linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7b2d8b 100%)" },
-    { id: "aurora",   name: "Aurora",    css: "linear-gradient(135deg, #000428 0%, #004e92 50%, #2b5876 100%)" },
-    { id: "sunset",   name: "Sunset",    css: "linear-gradient(135deg, #1a0533 0%, #6d1b7b 30%, #c2185b 60%, #ff7043 100%)" },
+    { id: "video",    name: "Dynamic Live (bg.mp4)", type: "video", src: "bg.mp4", css: "linear-gradient(135deg, #111 0%, #222 100%)" },
+    { id: "sonoma",   name: "Sonoma",                type: "gradient", css: "linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #533483 100%)" },
+    { id: "sequoia",  name: "Sequoia",               type: "gradient", css: "linear-gradient(135deg, #0d1117 0%, #1a3a2a 40%, #2d5a3d 70%, #0d2818 100%)" },
+    { id: "monterey", name: "Monterey",              type: "gradient", css: "linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7b2d8b 100%)" },
+    { id: "aurora",   name: "Aurora",                type: "gradient", css: "linear-gradient(135deg, #000428 0%, #004e92 50%, #2b5876 100%)" },
+    { id: "sunset",   name: "Sunset",                type: "gradient", css: "linear-gradient(135deg, #1a0533 0%, #6d1b7b 30%, #c2185b 60%, #ff7043 100%)" },
   ],
 
   // ─── Dock Apps ────────────────────────────────────────────────────────────

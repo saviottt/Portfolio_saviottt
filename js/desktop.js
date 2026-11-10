@@ -13,6 +13,7 @@ window.Desktop = {
     this._renderIcons();
     this._bindContextMenu();
     this._bindDesktopClick();
+    this._initVideoWallpaper();
   },
 
   // ─── Render desktop shortcut icons ────────────────────────────────────────
@@ -235,14 +236,46 @@ window.Desktop = {
     });
   },
 
+  _initVideoWallpaper() {
+    const vid = document.getElementById('wallpaper-video');
+    if (!vid) return;
+    vid.muted = true;
+    const playPromise = vid.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        const startPlay = () => {
+          vid.play().catch(() => {});
+          window.removeEventListener('click', startPlay);
+          window.removeEventListener('touchstart', startPlay);
+        };
+        window.addEventListener('click', startPlay, { once: true });
+        window.addEventListener('touchstart', startPlay, { once: true });
+      });
+    }
+  },
+
   // ─── Wallpaper switching ──────────────────────────────────────────────────
   setWallpaper(index) {
     const C = window.CONFIG;
     if (!C.wallpapers[index]) return;
     this.currentWallpaper = index;
     const wp = document.getElementById('wallpaper');
-    if (wp) wp.style.background = C.wallpapers[index].css;
-    window.Notifications?.push('Desktop', `Wallpaper changed to ${C.wallpapers[index].name}`, '🖼️');
+    const vid = document.getElementById('wallpaper-video');
+    const wpConfig = C.wallpapers[index];
+
+    if (wpConfig.type === 'video' || wpConfig.id === 'video') {
+      if (vid) {
+        vid.style.display = 'block';
+        vid.play().catch(() => {});
+      }
+      if (wp) wp.style.background = '#000';
+    } else {
+      if (vid) {
+        vid.style.display = 'none';
+        vid.pause();
+      }
+      if (wp) wp.style.background = wpConfig.css;
+    }
   },
 
   cycleWallpaper() {

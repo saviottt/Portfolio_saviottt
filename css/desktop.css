@@ -18,18 +18,36 @@
   position: fixed;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #533483 100%);
+  overflow: hidden;
+  background: #000;
   transition: background 0.8s ease;
 }
 
-/* Animated gradient overlay for depth */
+#wallpaper-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Subtle overlay so text, menu bar, and desktop icons stay beautifully readable with glassmorphism */
 #wallpaper::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 20% 50%, rgba(120,80,255,0.08) 0%, transparent 60%),
-              radial-gradient(ellipse at 80% 20%, rgba(0,120,255,0.08) 0%, transparent 50%);
+  background: radial-gradient(ellipse at 20% 50%, rgba(120,80,255,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(0,120,255,0.06) 0%, transparent 50%),
+              rgba(0, 0, 0, 0.22);
   pointer-events: none;
+  z-index: 1;
 }
 
 /* ─── Desktop Canvas (between menu bar and dock) ─────────────────────────── */

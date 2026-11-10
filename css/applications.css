@@ -128,19 +128,77 @@
   border-radius: var(--radius-md);
   cursor: pointer;
   text-align: center;
+  text-decoration: none;
+  color: inherit;
   transition: background var(--transition-fast);
 }
 
 .finder-file:hover { background: rgba(255,255,255,0.08); }
 .finder-file.selected { background: rgba(10,132,255,0.2); }
 
-.finder-file-icon { font-size: 36px; }
+.finder-file-icon {
+  font-size: 36px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.finder-alias-badge {
+  position: absolute;
+  right: -3px;
+  bottom: -2px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  background: var(--bg-primary);
+  color: var(--accent-blue);
+  border: 1px solid rgba(10,132,255,0.3);
+  border-radius: 3px;
+  padding: 1px 3px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
 .finder-file-name {
   font-size: 11px;
   color: var(--text-primary);
   line-height: 1.3;
   word-break: break-word;
   max-width: 80px;
+}
+
+.finder-file-sub {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  max-width: 85px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.finder-link-file:hover .finder-file-name {
+  color: var(--accent-blue);
+}
+
+.finder-link-tag {
+  font-size: 10px;
+  color: var(--accent-blue);
+  background: rgba(10,132,255,0.12);
+  border: 1px solid rgba(10,132,255,0.25);
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+.finder-link-row {
+  text-decoration: none;
+  color: inherit;
+}
+
+.finder-link-row:hover .finder-list-name span:nth-child(2) {
+  color: var(--accent-blue);
 }
 
 /* List View */
@@ -703,7 +761,16 @@
   flex-shrink: 0;
 }
 
-.project-title { font-size: var(--font-size-lg); font-weight: 700; color: var(--text-primary); }
+.project-title { font-size: var(--font-size-lg); font-weight: 700; color: var(--text-primary); transition: color var(--transition-fast); }
+.project-title-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.project-title-link:hover .project-title { color: var(--accent-blue); }
+.project-title-link:hover .ext-icon { color: var(--accent-blue); opacity: 1 !important; }
 .project-subtitle { font-size: var(--font-size-sm); color: var(--text-secondary); margin-top: 2px; }
 .project-status { 
   font-size: 10px; 
