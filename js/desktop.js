@@ -239,7 +239,28 @@ window.Desktop = {
   _initVideoWallpaper() {
     const vid = document.getElementById('wallpaper-video');
     if (!vid) return;
+
+    const MOBILE_BREAKPOINT = 768;
+    const DESKTOP_SRC = 'bg.mp4';
+    const MOBILE_SRC = 'mobile.mp4';
+
+    this._updateVideoWallpaperSrc = () => {
+      const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+      const targetSrc = isMobile ? MOBILE_SRC : DESKTOP_SRC;
+      if (!vid.src.endsWith(targetSrc)) {
+        vid.src = targetSrc;
+        vid.load();
+        vid.play().catch(() => {});
+      }
+    };
+
     vid.muted = true;
+    this._updateVideoWallpaperSrc();
+
+    // Re-check on resize and orientation change (e.g. rotating device or resizing DevTools)
+    window.addEventListener('resize', () => this._updateVideoWallpaperSrc?.());
+    window.addEventListener('orientationchange', () => this._updateVideoWallpaperSrc?.());
+
     const playPromise = vid.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
@@ -266,6 +287,7 @@ window.Desktop = {
     if (wpConfig.type === 'video' || wpConfig.id === 'video') {
       if (vid) {
         vid.style.display = 'block';
+        this._updateVideoWallpaperSrc?.();
         vid.play().catch(() => {});
       }
       if (wp) wp.style.background = '#000';

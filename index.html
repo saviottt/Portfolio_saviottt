@@ -31,7 +31,10 @@
      WALLPAPER LAYER
      ════════════════════════════════════════════════════════════════════════ -->
 <div id="wallpaper">
-  <video id="wallpaper-video" src="bg.mp4" autoplay loop muted playsinline preload="auto"></video>
+  <video id="wallpaper-video" autoplay loop muted playsinline preload="auto">
+    <source src="mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+    <source src="bg.mp4" type="video/mp4">
+  </video>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════════════════════
