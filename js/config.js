@@ -15,15 +15,15 @@ const CONFIG = {
     location: "Kerala, India",
     bio: "Passionate about Linux, Cloud Computing, Automation, and Software Development. Building the future one commit at a time.",
     avatar: "assets/images/avatar.svg", // Replace with your photo
-    email: "saviottt@example.com",      // ← Replace with real email
+    email: "donsavio1one@gmail.com",
   },
 
   // ─── Social Links ─────────────────────────────────────────────────────────
   social: {
-    github:   "https://github.com/saviottt",           // ← Replace
-    linkedin: "https://linkedin.com/in/saviottt",      // ← Replace
-    instagram: "https://instagram.com/saviottt",       // ← Replace
-    email:    "mailto:saviottt@example.com",           // ← Replace
+    github:   "https://github.com/saviottt",
+    linkedin: "https://www.linkedin.com/in/don-savio-thomas-904174337/",
+    instagram: "https://www.instagram.com/donsavio_1/",
+    email:    "mailto:donsavio1one@gmail.com",
   },
 
   // ─── Projects ─────────────────────────────────────────────────────────────
@@ -144,8 +144,9 @@ const CONFIG = {
 
   // ─── Resume ───────────────────────────────────────────────────────────────
   resume: {
-    file: "documents/resume.pdf",
-    name: "Don_Savio_Thomas_Resume.pdf",
+    file: "Resume.pdf",
+    previewImage: "assets/images/resume_preview-1.png",
+    name: "Resume.pdf",
   },
 };
 

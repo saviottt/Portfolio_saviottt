@@ -20,6 +20,7 @@ window.TerminalApp = {
           <button class="term-m-btn" data-tcmd="about">about</button>
           <button class="term-m-btn" data-tcmd="projects">projects</button>
           <button class="term-m-btn" data-tcmd="skills">skills</button>
+          <button class="term-m-btn" data-tcmd="resume">resume</button>
           <button class="term-m-btn" data-tcmd="neofetch">neofetch</button>
           <button class="term-m-btn" data-tcmd="clear">clear</button>
           <button class="term-m-btn" data-tcmd="hist-up" title="Previous command">↑</button>
@@ -184,6 +185,7 @@ window.TerminalApp = {
           ['projects',  'Show all projects'],
           ['education', 'Display educational background'],
           ['contact',   'Show contact information'],
+          ['resume',    'Open Resume.pdf viewer'],
           ['github',    'Open GitHub profile'],
           ['clear',     'Clear the terminal'],
           ['date',      'Display current date and time'],
@@ -264,6 +266,22 @@ window.TerminalApp = {
       github: (winId) => {
         this._print(winId, `<span class="t-info">Opening GitHub profile...</span>`, '');
         setTimeout(() => window.open(C.social.github, '_blank'), 400);
+      },
+
+      resume: (winId) => {
+        this._print(winId, `<span class="t-info">Opening Resume.pdf...</span>`, '');
+        window.WM?.open('resume');
+      },
+
+      open: (winId, args) => {
+        const target = (args[0] || '').toLowerCase();
+        if (!target || target === 'resume' || target === 'resume.pdf') {
+          this._print(winId, `<span class="t-info">Opening Resume.pdf...</span>`, '');
+          window.WM?.open('resume');
+        } else {
+          this._print(winId, `<span class="t-info">Opening ${target}...</span>`, '');
+          window.WM?.open(target);
+        }
       },
 
       clear: (winId) => {

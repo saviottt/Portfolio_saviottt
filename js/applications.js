@@ -13,7 +13,7 @@ window.APP_CONFIGS = {
   terminal: { title: 'Terminal', width: 700, height: 460 },
   vscode:   { title: 'Visual Studio Code', width: 900, height: 600 },
   safari:   { title: 'Safari',   width: 820, height: 580 },
-  resume:   { title: 'Resume',   width: 740, height: 680 },
+  resume:   { title: 'Resume.pdf — Preview', width: 780, height: 720 },
   contact:  { title: 'Contact',  width: 540, height: 480 },
   github:   { title: 'GitHub',   width: 500, height: 400 },
 };
@@ -51,7 +51,7 @@ function renderFinder(el, winId) {
     { name: 'Projects', icon: '📁', color: '#0a84ff', items: C.projects.map(p => ({ name: p.name, icon: '📄', type: 'project', data: p })) },
     { name: 'Skills',   icon: '📁', color: '#30d158', items: Object.entries(C.skills).map(([k,v]) => ({ name: k, icon: '📋', type: 'skill', data: v })) },
     { name: 'Education',icon: '📁', color: '#ffd60a', items: C.education.map(e => ({ name: e.degree, icon: '🎓', type: 'edu', data: e })) },
-    { name: 'Personal', icon: '📁', color: '#ff9f0a', items: [{ name: 'Resume', icon: '📄', type: 'resume' }, { name: 'Portfolio', icon: '🌐', type: 'safari' }, { name: 'GitHub', icon: '🐙', type: 'github' }] },
+    { name: 'Personal', icon: '📁', color: '#ff9f0a', items: [{ name: 'Resume.pdf', icon: '📄', type: 'resume' }, { name: 'Portfolio', icon: '🌐', type: 'safari' }, { name: 'GitHub', icon: '🐙', type: 'github' }] },
   ];
 
   let currentFolder = null;
@@ -600,7 +600,9 @@ function generateReadme() {
     `<span class="cmt">## 📫 Contact</span>`,
     ``,
     `GitHub: <span class="str">@saviottt</span>`,
-    `LinkedIn: <span class="str">linkedin.com/in/saviottt</span>`,
+    `LinkedIn: <span class="str">linkedin.com/in/don-savio-thomas-904174337</span>`,
+    `Instagram: <span class="str">@donsavio_1</span>`,
+    `Email: <span class="str">donsavio1one@gmail.com</span>`,
   ];
   return lines.map((l, i) => codeLine(i + 1, l)).join('');
 }
@@ -747,51 +749,107 @@ function renderSafari(el, winId) {
    ════════════════════════════════════════════════════════════════════════════ */
 function renderResume(el) {
   const C = window.CONFIG;
-  const p = C.personal;
+  const resumeFile = (C.resume && C.resume.file) || 'Resume.pdf';
+  const previewImg = (C.resume && C.resume.previewImage) || 'assets/images/resume_preview-1.png';
+  const fileName   = (C.resume && C.resume.name) || 'Resume.pdf';
+
+  let currentZoom = 100;
 
   el.innerHTML = `
     <div class="resume-app">
       <div class="resume-toolbar">
-        <span class="resume-toolbar-title">📄 ${C.resume.name}</span>
-        <a class="resume-download" href="${C.resume.file}" download="${C.resume.name}">
-          ⬇ Download PDF
-        </a>
+        <div class="resume-toolbar-left">
+          <span class="resume-toolbar-badge">📄</span>
+          <span class="resume-toolbar-title">${fileName}</span>
+          <span class="resume-page-counter">1 page</span>
+        </div>
+
+        <div class="resume-toolbar-center">
+          <div class="resume-segmented-control" role="tablist">
+            <button class="resume-seg-btn active" id="resumeSegPreview" data-view="preview" title="Document Preview">📄 Preview</button>
+            <button class="resume-seg-btn" id="resumeSegPdf" data-view="pdf" title="Embedded PDF Reader">📑 Interactive PDF</button>
+          </div>
+          <div class="resume-zoom-controls" id="resumeZoomControls">
+            <button class="resume-tool-btn" id="resumeZoomOut" title="Zoom Out">−</button>
+            <span class="resume-zoom-text" id="resumeZoomText">100%</span>
+            <button class="resume-tool-btn" id="resumeZoomIn" title="Zoom In">+</button>
+            <button class="resume-tool-btn" id="resumeZoomFit" title="Fit to Window">Fit</button>
+          </div>
+        </div>
+
+        <div class="resume-toolbar-right">
+          <a class="resume-btn" href="${resumeFile}" target="_blank" rel="noopener" title="Open PDF in new tab">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <span>Open PDF</span>
+          </a>
+          <a class="resume-btn resume-btn-primary" href="${resumeFile}" download="${fileName}" title="Download PDF to computer">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Download</span>
+          </a>
+        </div>
       </div>
-      <div class="resume-preview">
-        <div class="resume-page selectable">
-          <div class="resume-name">${p.name}</div>
-          <div class="resume-role">${p.title}</div>
-          <div class="resume-contact-line">${p.email} · ${p.location} · github.com/saviottt · linkedin.com/in/saviottt</div>
-          <div class="resume-divider"></div>
 
-          <div class="resume-section-title">Education</div>
-          <div class="resume-entry">
-            <div class="resume-entry-title">${p.degree}</div>
-            <div class="resume-entry-sub"><span>${p.college}</span><span>2022 – 2026</span></div>
-            <div class="resume-entry-desc">Relevant courses: Data Structures, Operating Systems, Cloud Computing, Software Engineering, Computer Networks</div>
-          </div>
-          <div class="resume-divider"></div>
-
-          <div class="resume-section-title">Projects</div>
-          ${C.projects.slice(0,3).map(proj => `
-            <div class="resume-entry">
-              <div class="resume-entry-title">${proj.name} – ${proj.subtitle}</div>
-              <div class="resume-entry-sub"><span>${proj.tech.join(', ')}</span><span>${proj.status}</span></div>
-              <div class="resume-entry-desc">${proj.description}</div>
+      <div class="resume-body">
+        <div class="resume-preview-pane active" id="resumePreviewPane">
+          <div class="resume-canvas" id="resumeCanvas">
+            <div class="resume-sheet" id="resumeSheet">
+              <img src="${previewImg}" alt="Don Savio Thomas Resume" class="resume-img" id="resumeImg" draggable="false" />
             </div>
-          `).join('')}
-          <div class="resume-divider"></div>
-
-          <div class="resume-section-title">Technical Skills</div>
-          <div class="resume-skills-grid">
-            ${Object.entries(C.skills).slice(0,4).map(([k,v]) => `
-              <div class="resume-skill-item"><strong>${k}:</strong> ${v.slice(0,4).join(', ')}</div>
-            `).join('')}
           </div>
+        </div>
+
+        <div class="resume-pdf-pane" id="resumePdfPane">
+          <iframe class="resume-pdf-iframe" src="${resumeFile}#toolbar=1&navpanes=0" title="Resume PDF"></iframe>
         </div>
       </div>
     </div>
   `;
+
+  // Attach interactive controls
+  const segPreview   = el.querySelector('#resumeSegPreview');
+  const segPdf       = el.querySelector('#resumeSegPdf');
+  const previewPane  = el.querySelector('#resumePreviewPane');
+  const pdfPane      = el.querySelector('#resumePdfPane');
+  const zoomControls = el.querySelector('#resumeZoomControls');
+  const sheet        = el.querySelector('#resumeSheet');
+  const zoomText     = el.querySelector('#resumeZoomText');
+  const btnZoomIn    = el.querySelector('#resumeZoomIn');
+  const btnZoomOut   = el.querySelector('#resumeZoomOut');
+  const btnZoomFit   = el.querySelector('#resumeZoomFit');
+
+  function updateZoom(newZoom) {
+    currentZoom = Math.min(Math.max(newZoom, 40), 220);
+    if (zoomText) zoomText.textContent = `${currentZoom}%`;
+    if (sheet) {
+      if (currentZoom === 100) {
+        sheet.style.transform = 'none';
+        sheet.style.maxWidth = '720px';
+      } else {
+        sheet.style.maxWidth = `${Math.round(720 * (currentZoom / 100))}px`;
+        sheet.style.transform = 'none';
+      }
+    }
+  }
+
+  btnZoomIn?.addEventListener('click', () => updateZoom(currentZoom + 15));
+  btnZoomOut?.addEventListener('click', () => updateZoom(currentZoom - 15));
+  btnZoomFit?.addEventListener('click', () => updateZoom(100));
+
+  segPreview?.addEventListener('click', () => {
+    segPreview.classList.add('active');
+    segPdf?.classList.remove('active');
+    previewPane?.classList.add('active');
+    pdfPane?.classList.remove('active');
+    if (zoomControls) zoomControls.style.opacity = '1';
+  });
+
+  segPdf?.addEventListener('click', () => {
+    segPdf.classList.add('active');
+    segPreview?.classList.remove('active');
+    pdfPane?.classList.add('active');
+    previewPane?.classList.remove('active');
+    if (zoomControls) zoomControls.style.opacity = '0.3';
+  });
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -803,7 +861,7 @@ function renderContact(el) {
     { icon: '📧', platform: 'Email',    handle: C.personal.email,   url: C.social.email },
     { icon: '🐙', platform: 'GitHub',   handle: '@saviottt',         url: C.social.github },
     { icon: '💼', platform: 'LinkedIn', handle: 'Don Savio Thomas',  url: C.social.linkedin },
-    { icon: '📸', platform: 'Instagram',handle: '@saviottt',         url: C.social.instagram },
+    { icon: '📸', platform: 'Instagram',handle: '@donsavio_1',       url: C.social.instagram },
   ];
 
   el.innerHTML = `
